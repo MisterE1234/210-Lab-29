@@ -35,3 +35,6 @@
                         //use the int variables to keep track of how many are in a division and how many are staunch.
 
                     //Print the changes by displaying the current party population with staunches as well.
+                        //Pause after each display and wait for the user to confirm to continue.
+                    
+    //end of main function.
