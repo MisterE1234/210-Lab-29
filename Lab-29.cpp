@@ -3,10 +3,34 @@
 
 //Include necessary headers for files, data structures, processing, and ect.
 
+#include <iostream>
+#include <fstream>
+#include <list>
+#include <map>
+#include <algorithm>
+#include <numeric>
+#include <iomanip>
+
 //Define a class named Voter:
-    //would hold a int party variable with three options (1-3). To represent left, moderate, right.
+    //would hold a int political leaning variable with three options (1-3). To represent left, moderate, right.
     //an bool variable to see if the voter is staunch or not.
     //a partial constructor to have a custom party affiliation with staunch set false by default.
+
+    class Voter {
+        private:
+            int leaning;
+            bool staunch;
+
+        public:
+        Voter() {leaning = 0; staunch = false;}
+        Voter(int l) {leaning = l; staunch = false;}
+
+        void set_leaning (int l) {leaning = l;};
+        void set_staunch (bool s) {staunch = s;};
+        int get_leaning () const {return leaning;};
+        bool get_staunch () const {return staunch;};
+
+    }
 
 //Define a function that would simulate what event[s] would have happend for this voting period and how they affect different voters using a probabilty matrix.
     //Parameters: a voter, and 3 random int variables
