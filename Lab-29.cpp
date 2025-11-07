@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <numeric>
 #include <iomanip>
+#include <array>
+
 
 //Define a class named Voter:
     //would hold a int political leaning variable with three options (1-3). To represent left, moderate, right.
@@ -51,7 +53,8 @@
     //declare int variables named rPop, lPop, iPop, nonPop, and rStaunch, lStaunch, iStaunch, and nonStaunch. Also a string array that hold who is in charge:
     
     int main (){
-        map <> polLandscape;
+        map < string , array <list <Voter>, 3 >> polLandscape;
+        list <Voter> vote;
 
     
     //Open a external file to read integer to the list to become voters.
