@@ -88,14 +88,14 @@ int VOTER_NUM = 100;  int INITIAL_R = 40; int INITIAL_L = 40; int INITIAL_I = 40
         return 1;
     }
 
-    for(int i = 0; i < INITIAL_R; i++){
     
-    }
     
     //Read data to lists: split three ways 40% R: 40% L: 20% I.
-
+    auto it  = polLandscape.find("Right");
         // for each line extract a party affilation to make a voter.
-
+    for(int i = 0; i < INITIAL_R; i++){
+    get<>it->second[i].set_leaning(iFile);
+    }
 
     //close file
     iFile.close();
@@ -115,3 +115,10 @@ int VOTER_NUM = 100;  int INITIAL_R = 40; int INITIAL_L = 40; int INITIAL_I = 40
                     
     }
     //end of main function.
+
+    int partyChange(Voter v, int prob_Disaster, int prob_War, int prob_economy){
+        int newParty;
+
+
+        return newParty;
+    }
