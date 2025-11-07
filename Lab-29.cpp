@@ -14,7 +14,7 @@
 
 using namespace std;
 
-const int AMOUNT_SIMULATE = 25, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
+const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
 
 //Define a class named Voter:
     //would hold a int political leaning variable with three options (1-3). To represent left, moderate, right.
@@ -59,18 +59,30 @@ const int AMOUNT_SIMULATE = 25, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 4
     //declare int variables to hold the population in each party and how many are staunch or non-voters. Also a int variable that hold who is in charge:
     
     int main (){
+
+        srand(time(0));
         map < string, array <list <Voter>, 3 >> polLandscape;
         int rPop = 0;
         int lPop = 0;
         int iPop = 0;
+
         int rStaunch = 0;
         int lStaunch = 0;
         int iStaunch = 0;
+
         int rNon = 0;
         int lNon = 0;
         int iNon = 0;
+
         int presidentParty;
+
         int temp;
+        int event;
+
+        char confirm;
+        bool disaster = false;
+        bool war = false;
+        int economic = 0;
 
 
     polLandscape["Right"] = {};
@@ -119,10 +131,34 @@ const int AMOUNT_SIMULATE = 25, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 4
     // Begin a time-based simulation for voting changes:
         //25 time intervals
         for (int i = 0; i > AMOUNT_SIMULATE, i++;){
-
-
-        }
             // run a random numbers for disaster, war, and economic condition.
+            for (int e = 1; e >= EVENT_NUM, e++;){
+                event = rand()%100 + 1;
+
+                switch(e){
+                    case 1:
+                    if (event <= PROB_DISASTER){
+                        disaster = true;
+                    }
+                    break;
+                    case 2:
+                    if (event <= PROB_WAR){
+                        war = true;
+                    }
+                    break;
+                    case 3:
+                    if (event <= PROB_ECONOMY){
+                        economic = 1;
+                    }
+                    else if(event >= 100 - PROB_ECONOMY)
+                        economic = 2;
+                    break;
+
+                }
+
+            }
+
+            
                 // Iterate through each voting division
                     // for each voter see if they are going to change party, stay, or become staunch
                         //if they become stauch it makes it harder for them to switch parties, same if they switch to non-voter.
@@ -132,7 +168,7 @@ const int AMOUNT_SIMULATE = 25, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 4
 
                     //Print the changes by displaying the current party population with staunches as well.
                         //Pause after each display and wait for the user to confirm to continue.
-                    
+        }
     }
     //end of main function.
 
