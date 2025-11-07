@@ -12,6 +12,7 @@
 #include <iomanip>
 #include <array>
 
+using namespace std;
 
 //Define a class named Voter:
     //would hold a int political leaning variable with three options (1-3). To represent left, moderate, right.
@@ -23,20 +24,23 @@
         private:
             int leaning;
             bool staunch;
+            bool non_vote;
 
         // public functions:
         public:
         //Constructors:
-        Voter() {leaning = 0; staunch = false;}
-        Voter(int l) {leaning = l; staunch = false;}
+        Voter() {leaning = 0; staunch = false; non_vote = false;};
+        Voter(int l) {leaning = l; staunch = false; non_vote = false;}
 
         //Setters:
         void set_leaning (int l) {leaning = l;};
         void set_staunch (bool s) {staunch = s;};
+        void set_staunch (bool n) {non_vote = n;};
 
         //getters:
         int get_leaning () const {return leaning;};
         bool get_staunch () const {return staunch;};
+        bool get_staunch () const {return non_vote;};
 
     };
 
@@ -50,17 +54,38 @@
 //Define main function:
     //
     //Initialize a map to store party information, each associated with its different kinds of voters.
-    //declare int variables named rPop, lPop, iPop, nonPop, and rStaunch, lStaunch, iStaunch, and nonStaunch. Also a string array that hold who is in charge:
+    //declare int variables named rPop, lPop, iPop, nonPop, and rStaunch, lStaunch, iStaunch, and nonStaunch. Also a int variable that hold who is in charge:
     
     int main (){
-        map < string , array <list <Voter>, 3 >> polLandscape;
-        list <Voter> vote;
+        map < string, array <list <Voter>, 3 >> polLandscape;
+        int rPop = 0;
+        int lPop = 0;
+        int iPop = 0;
+        int nonPop = 0;
+        int rStaunch = 0;
+        int lStaunch = 0;
+        int iStaunch = 0;
+        int nonStaunch = 0;
+        int presidentParty;
+
 
     
     //Open a external file to read integer to the list to become voters.
         //if it does not open, print an error message and return -1.
+
+    ifstream iFile; //input file stream object
+    iFile.open("voters.txt"); //open the input file
+
+    //check if the file opened successfully
+    if (!iFile)
+    {
+        cout << "Error opening file!" << endl;
+        return 1;
+    }
+
     
-    //Read data to lists: split three ways 30% R: 30% L: 40% I.
+    //Read data to lists: split three ways 40% R: 40% L: 20% I.
+
         // for each line extract a party affilation to make a voter.
 
     //close file
