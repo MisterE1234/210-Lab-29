@@ -14,7 +14,7 @@
 
 using namespace std;
 
-const int VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40;
+const int VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
 
 //Define a class named Voter:
     //would hold a int political leaning variable with three options (1-3). To represent left, moderate, right.
@@ -37,21 +37,21 @@ const int VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40;
         //Setters:
         void set_leaning (int l) {leaning = l;};
         void set_staunch (bool s) {staunch = s;};
-        void set_staunch (bool n) {non_vote = n;};
+        void set_non_vote (bool n) {non_vote = n;};
 
         //getters:
         int get_leaning () const {return leaning;};
         bool get_staunch () const {return staunch;};
-        bool get_staunch () const {return non_vote;};
+        bool get_non_vote () const {return non_vote;};
 
     };
 
 
 //Define a function that would simulate what event[s] would have happend for this voting period and how they affect different voters using a probabilty matrix.
-    //Parameters: a voter, and 3 random int variables
+    //Parameters: a voter, 3 random int variables, and an int to hold the presidents party.
     //returns: an integer indicating which party they are a part of now and and if they are staunch.
 
-    int partyChange(Voter, int, int, int);
+    int partyChange(Voter, int, int, int, int);
 
 //Define main function:
     //
@@ -132,9 +132,34 @@ const int VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40;
     }
     //end of main function.
 
-    int partyChange(Voter v, int prob_Disaster, int prob_War, int prob_economy){
+    int partyChange(Voter v, int prob_Disaster, int prob_War, int prob_economy, int president){
         int newParty;
+        bool disaster;
+        bool war;
+        bool downturn;
+        bool boom;
 
+
+
+        switch(v.get_leaning()){
+
+            case 1:{
+
+            break;
+            }
+
+            case 2:{
+
+            break;
+            }
+
+            case 3:{
+
+            break;
+            }
+            default:
+            cout << "error. invalid political leaning number ";
+        }
 
         return newParty;
     }
