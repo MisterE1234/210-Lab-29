@@ -17,28 +17,42 @@
     //a partial constructor to have a custom party affiliation with staunch set false by default.
 
     class Voter {
+        //Private variables for politcal leaning and if the voter is staunch or not.
         private:
             int leaning;
             bool staunch;
 
+        // public functions:
         public:
+        //Constructors:
         Voter() {leaning = 0; staunch = false;}
         Voter(int l) {leaning = l; staunch = false;}
 
+        //Setters:
         void set_leaning (int l) {leaning = l;};
         void set_staunch (bool s) {staunch = s;};
+
+        //getters:
         int get_leaning () const {return leaning;};
         bool get_staunch () const {return staunch;};
 
-    }
+    };
+
 
 //Define a function that would simulate what event[s] would have happend for this voting period and how they affect different voters using a probabilty matrix.
     //Parameters: a voter, and 3 random int variables
     //returns: an integer indicating which party they are a part of now and and if they are staunch.
 
+    int partyChange(Voter, int, int, int);
+
 //Define main function:
+    //
     //Initialize a map to store party information, each associated with its different kinds of voters.
-    //declare int variables named rPop, lPop, iPop, nonPop, and rStaunch, lStaunch, iStaunch, and nonStaunch.
+    //declare int variables named rPop, lPop, iPop, nonPop, and rStaunch, lStaunch, iStaunch, and nonStaunch. Also a string array that hold who is in charge:
+    
+    int main (){
+        map <> polLandscape;
+
     
     //Open a external file to read integer to the list to become voters.
         //if it does not open, print an error message and return -1.
@@ -61,4 +75,5 @@
                     //Print the changes by displaying the current party population with staunches as well.
                         //Pause after each display and wait for the user to confirm to continue.
                     
+    }
     //end of main function.
