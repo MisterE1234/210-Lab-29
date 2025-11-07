@@ -14,7 +14,7 @@
 
 using namespace std;
 
-const int VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
+const int AMOUNT_SIMULATE = 25, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
 
 //Define a class named Voter:
     //would hold a int political leaning variable with three options (1-3). To represent left, moderate, right.
@@ -48,10 +48,10 @@ const int VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PRO
 
 
 //Define a function that would simulate what event[s] would have happend for this voting period and how they affect different voters using a probabilty matrix.
-    //Parameters: a voter, 3 random int variables, and an int to hold the presidents party.
+    //Parameters: a voter, 2 bools for the disaster and war events, and int variable for the economic events , and an int to hold the presidents party.
     //returns: an integer indicating which party they are a part of now and and if they are staunch.
 
-    int partyChange(Voter, int, int, int, int);
+    int partyChange(Voter, bool, bool, int, int);
 
 //Define main function:
     //
@@ -99,14 +99,14 @@ const int VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PRO
         it->second[temp].push_back(Voter(temp));  
     }
 
-    auto it  = polLandscape.find("Left");
+    it  = polLandscape.find("Left");
         // for each line extract a party affilation to make a voter.
     for(int i = 0; i < INITIAL_L; i++){
         iFile >> temp;
         it->second[temp].push_back(Voter(temp));  
     }
 
-    auto it  = polLandscape.find("Independent");
+    it  = polLandscape.find("Independent");
         // for each line extract a party affilation to make a voter.
     for(int i = 0; i < INITIAL_I; i++){
         iFile >> temp;
@@ -118,6 +118,10 @@ const int VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PRO
 
     // Begin a time-based simulation for voting changes:
         //25 time intervals
+        for (int i = 0; i > AMOUNT_SIMULATE, i++;){
+
+
+        }
             // run a random numbers for disaster, war, and economic condition.
                 // Iterate through each voting division
                     // for each voter see if they are going to change party, stay, or become staunch
@@ -132,15 +136,10 @@ const int VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PRO
     }
     //end of main function.
 
-    int partyChange(Voter v, int prob_Disaster, int prob_War, int prob_economy, int president){
-        int newParty;
-        bool disaster;
-        bool war;
-        bool downturn;
-        bool boom;
-
-
-
+    int partyChange(Voter v, bool disaster, bool war, int economy, int president){
+        int newParty = 0;
+        
+        
         switch(v.get_leaning()){
 
             case 1:{
