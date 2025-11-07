@@ -74,7 +74,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
         int lNon = 0;
         int iNon = 0;
 
-        int presidentParty;
+        int presidentParty = 0;
 
         int temp;
         int event;
@@ -158,7 +158,6 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
             }
 
-            
                 // Iterate through each voting division
                     // for each voter see if they are going to change party, stay, or become staunch
                         //if they become stauch it makes it harder for them to switch parties, same if they switch to non-voter.
@@ -174,26 +173,39 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
     int partyChange(Voter v, bool disaster, bool war, int economy, int president){
         int newParty = 0;
+        int change = 0;
         
         
         switch(v.get_leaning()){
-
+            //left leaning:
             case 1:{
+                if (economy = 1){
+                    if (disaster == true){
+
+                    }
+
+                    if (war == true) {
+
+                        
+                    }
+                }
+                
 
             break;
             }
-
+            //moderate leaning:
             case 2:{
 
             break;
             }
-
+            //right leaning:
             case 3:{
 
             break;
             }
+            //error handling
             default:
-            cout << "error. invalid political leaning number ";
+            cout << "error. invalid political leaning number.\n ";
         }
 
         return newParty;
