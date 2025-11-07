@@ -14,7 +14,7 @@
 
 using namespace std;
 
-int VOTER_NUM = 100;  int INITIAL_R = 40; int INITIAL_L = 40; int INITIAL_I = 40;
+const int VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40;
 
 //Define a class named Voter:
     //would hold a int political leaning variable with three options (1-3). To represent left, moderate, right.
@@ -70,6 +70,7 @@ int VOTER_NUM = 100;  int INITIAL_R = 40; int INITIAL_L = 40; int INITIAL_I = 40
         int lNon = 0;
         int iNon = 0;
         int presidentParty;
+        int temp;
 
 
     polLandscape["Right"] = {};
@@ -94,7 +95,22 @@ int VOTER_NUM = 100;  int INITIAL_R = 40; int INITIAL_L = 40; int INITIAL_I = 40
     auto it  = polLandscape.find("Right");
         // for each line extract a party affilation to make a voter.
     for(int i = 0; i < INITIAL_R; i++){
-    get<>it->second[i].set_leaning(iFile);
+        iFile >> temp;
+        it->second[temp].push_back(Voter(temp));  
+    }
+
+    auto it  = polLandscape.find("Left");
+        // for each line extract a party affilation to make a voter.
+    for(int i = 0; i < INITIAL_L; i++){
+        iFile >> temp;
+        it->second[temp].push_back(Voter(temp));  
+    }
+
+    auto it  = polLandscape.find("Independent");
+        // for each line extract a party affilation to make a voter.
+    for(int i = 0; i < INITIAL_I; i++){
+        iFile >> temp;
+        it->second[temp].push_back(Voter(temp));  
     }
 
     //close file
