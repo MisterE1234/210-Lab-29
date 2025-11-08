@@ -1,0 +1,2 @@
+Bugs: I did not complete the alpha like I wanted so I have to make that work first.
+I will make the events effect the voters by iterating through each list and keep track of the new sizes of each map.
