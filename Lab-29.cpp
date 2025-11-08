@@ -158,8 +158,15 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
             }
                 // raneg base through each voting division
-                for( auto &party : polLandscape){
-                    
+                for(auto &party : polLandscape ){
+                    for(int a = 0; a < 3; a++){
+                        for(auto vote : polLandscape->second[a]){
+                    switch(partyChange(polLandscape->second[a],  disaster, war,  economic, presidentParty, party))
+
+
+
+                        }
+                }
                 }
                 
 
