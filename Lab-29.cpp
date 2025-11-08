@@ -62,9 +62,9 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
         srand(time(0));
         map < string, array <list <Voter>, 3 >> polLandscape;
-        int rPop = 0;
-        int lPop = 0;
-        int iPop = 0;
+        int rPop = INITIAL_R;
+        int lPop = INITIAL_L;
+        int iPop = INITIAL_I;
 
         int rStaunch = 0;
         int lStaunch = 0;
@@ -157,8 +157,13 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 }
 
             }
+                // raneg base through each voting division
+                for( auto &party : polLandscape){
+                    
+                }
+                
 
-                // Iterate through each voting division
+                
                     // for each voter see if they are going to change party, stay, or become staunch
                         //if they become stauch it makes it harder for them to switch parties, same if they switch to non-voter.
                         // If they become staunch update their bool variable, if tehy were staunch and left their party set their stauch to false.
@@ -856,7 +861,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
         
     }
 
-    prob = rand()%100 + change;
+    prob = (rand()%100) + change;
     if(prob < 5){
         return newParty;
     }
@@ -864,8 +869,13 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
         newParty = party;
         return newParty;
     }
-    else if(prob < 35){
-        newParty 
+    else if(prob < 95){
+        newParty = (rand()%3) + 1;
+        return newParty;
+    }
+    else if(prob >= 95){
+        newParty = 4;
+        return newParty;
     }
 
     
