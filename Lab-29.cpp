@@ -159,15 +159,31 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
             }
                 //Iterate thorugh each map and list.
-                //giong thruogh the left party:
-                it  = polLandscape.find("Left");
                 
+                auto itL  = polLandscape.find("Left");
+                auto itI = polLandscape.find("Independent");
+                auto itR = polLandscape.find("Right");
+                Voter tempVote;
+                
+                //going through the Left party first:
                 voterParty = 1;
                 for(int i = 0; i > 3; i++){
-                    list <Voter>& tempList = it->second[i];
+                    list <Voter>& tempList = itL->second[i];
                     
                     for(auto vote : tempList){
-                        switch ()
+                        switch (partyChange(vote , disaster , war , economic , presidentParty , voterParty)){
+                            case 0:
+                                vote.set_staunch(true);
+                                lStaunch++;
+                                break;
+                            case 1:
+                                break;
+                            case 2:
+                                tempVote = vote;
+                                tempList.erase(vote);
+
+                                
+                        }
 
                     }
 
@@ -884,21 +900,22 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
     }
 
     prob = (rand()%100) + change;
-    if(prob < 5){
+    if(prob < 5){ // become staunch (0)
         return newParty;
     }
-    else if(prob < 20){
+    else if(prob < 20){ // stay in party (party)
         newParty = party;
         return newParty;
     }
-    else if(prob < 95){
+    else if(prob < 95){ //chance to change party (1-3)
         newParty = (rand()%3) + 1;
         return newParty;
     }
-    else if(prob >= 95){
+    else if(prob >= 95){// become non-voter (4)
         newParty = 4;
         return newParty;
     }
+    
 
     
 }
