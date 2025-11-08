@@ -74,7 +74,8 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
         int lNon = 0;
         int iNon = 0;
 
-        int presidentParty = 0;
+        int presidentParty = rand()%3 + 1; //The presidents party alignment will randomly be either Left(1), Independent(2), Right(3).
+        int voterParty;
 
         int temp;
         int event;
@@ -158,7 +159,19 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
             }
                 //Iterate thorugh each map and list.
+                //giong thruogh the left party:
+                it  = polLandscape.find("Left");
                 
+                voterParty = 1;
+                for(int i = 0; i > 3; i++){
+                    list <Voter>& tempList = it->second[i];
+                    
+                    for(auto vote : tempList){
+                        switch ()
+
+                    }
+
+                }
 
 
 
