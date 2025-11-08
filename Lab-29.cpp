@@ -171,9 +171,10 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
     }
     //end of main function.
 
-    int partyChange(Voter v, bool disaster, bool war, int economy, int president, int party){
+int partyChange(Voter v, bool disaster, bool war, int economy, int president, int party){
     int newParty = 0;
     int change = 0;
+    int prob;
     int staunch = 0;
     if(v.get_staunch()){
             staunch = 20;
@@ -641,15 +642,15 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                         }
 
                         if (disaster == true){ // disaster happened:
-                            change = -(10 + staunch);
+                            change = -(15 + staunch);
                         }
 
                         if (war == true) { //war happened:
-                            change = -(20 + staunch);
+                            change = -(25 + staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = +(20 - staunch);
+                            change = +(35 - staunch);
                         }
 
                     
@@ -660,7 +661,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     case 2:{
                 
                         if (economy = 2){ //Economic downturn:
-                            change = -(10 + staunch);
+                            change = -(15 + staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
@@ -681,11 +682,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
             //right leaning:
                     case 3:{
                         if (economy = 2){ //Economic downturn:
-                            change = -(15 + staunch);
+                            change = -(10 + staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
-                            change = -(15 + staunch);
+                            change = -(10 + staunch);
                         }
 
                         if (war == true) { //war happened:
@@ -710,19 +711,19 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     case 1:{
                 
                         if (economy = 2){ //Economic downturn:
-                            change = +(30 - staunch);
+                            change = -(15 + staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
-                            change = +(30 - staunch);
+                            change = -(10 + staunch);
                         }
 
                         if (war == true) { //war happened:
-                            change = +(45 - staunch);
+                            change = -(30 + staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = -(15 + staunch);
+                            change = +(35 - staunch);
                         }
 
                     
@@ -733,19 +734,19 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     case 2:{
                 
                         if (economy = 2){ //Economic downturn:
-                            change = +(20 - staunch);
+                            change = -(10 + staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
-                            change = +(25 - staunch);
+                            change = -(10 + staunch);
                         }
 
                         if (war == true) { //war happened:
-                            change = +(35 - staunch);
+                            change = -(25 + staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = -(25 + staunch);
+                            change = +(30 - staunch);
                         }
 
                 
@@ -754,19 +755,19 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
             //right leaning:
                     case 3:{
                         if (economy = 2){ //Economic downturn:
-                            change = +(25 - staunch);
+                            change = -(15 + staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
-                            change = +(30 - staunch);
+                            change = -(15 + staunch);
                         }
 
                         if (war == true) { //war happened:
-                            change = +(40 - staunch);
+                            change = -(30 + staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = -(20 + staunch);
+                            change = +(25 - staunch);
                         }
 
                     break;
@@ -855,5 +856,17 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
         
     }
 
-    return newParty;
+    prob = rand()%100 + change;
+    if(prob < 5){
+        return newParty;
+    }
+    else if(prob < 20){
+        newParty = party;
+        return newParty;
+    }
+    else if(prob < 35){
+        newParty 
+    }
+
+    
 }
