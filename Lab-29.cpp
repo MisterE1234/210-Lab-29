@@ -306,19 +306,19 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
             //right leaning:
                     case 3:{
                         if (economy = 2){ //Economic downturn:
-                            change = +(35 + staunch);
+                            change = -(10 + staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
-                            change = +(20 + staunch);
+                            change = -(10 + staunch);
                         }
 
                         if (war == true) { //war happened:
-                            change = +(40 + staunch);
+                            change = -(25 + staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = -(25 - staunch);
+                            change = +(20 - staunch);
                         }
 
                     break;
@@ -334,19 +334,19 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     case 1:{
                 
                         if (economy = 2){ //Economic downturn:
-                            change = +(30 + staunch);
+                            change = -(20 + staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
-                            change = +(35 + staunch);
+                            change = -(15 + staunch);
                         }
 
                         if (war == true) { //war happened:
-                            change = +(50 + staunch);
+                            change = -(50 + staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = -(15 - staunch);
+                            change = +(15 - staunch);
                         }
 
                     
@@ -357,19 +357,19 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     case 2:{
                 
                         if (economy = 2){ //Economic downturn:
-                            change = +(30 - staunch);
+                            change = -(10 + staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
-                            change = +(35 - staunch);
+                            change = -(10 + staunch);
                         }
 
                         if (war == true) { //war happened:
-                            change = +(50 - staunch);
+                            change = -(20 + staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = -(20 + staunch);
+                            change = +(20 - staunch);
                         }
 
                 
@@ -378,19 +378,19 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
             //right leaning:
                     case 3:{
                         if (economy = 2){ //Economic downturn:
-                            change = +(40 - staunch);
+                            change = -(5 + staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
-                            change = +(45 - staunch);
+                            change = -(10 + staunch);
                         }
 
                         if (war == true) { //war happened:
-                            change = +(60 - staunch);
+                            change = -(15 + staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = -(20 + staunch);
+                            change = +(25 - staunch);
                         }
 
                     break;
@@ -405,6 +405,230 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 cout << "Error. Invalid Presidential Party.\n";
         }
         break;
+
+        case (2) : // The voter is a part of the Independent party:
+        switch(president){
+            case 1: // the president is an Left party member (same as voter):
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy = 2){ //Economic downturn:
+                            change = -(10 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(5 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(20 + staunch);
+                    
+                        }
+                        if (economy = 1){ // Economic boom:
+                            change = +(25 - staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy = 2){ //Economic downturn:
+                            change = -(10 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy = 1){ // Economic boom:
+                            change = +(20 - staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy = 2){ //Economic downturn:
+                            change = -(15 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(15 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy = 1){ // Economic boom:
+                            change = +(25 - staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+            break;
+
+            case 2: // The president is an Independent:
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy = 2){ //Economic downturn:
+                            change = +(30 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(35 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(50 - staunch);
+                    
+                        }
+                        if (economy = 1){ // Economic boom:
+                            change = -(15 + staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy = 2){ //Economic downturn:
+                            change = +(20 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(25 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(40 - staunch);
+                    
+                        }
+                        if (economy = 1){ // Economic boom:
+                            change = -(25 + staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy = 2){ //Economic downturn:
+                            change = +(20 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(25 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(40 - staunch);
+                    
+                        }
+                        if (economy = 1){ // Economic boom:
+                            change = -(25 + staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+            break;
+            case 3: // the President a Right Party member:
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy = 2){ //Economic downturn:
+                            change = -(20 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(15 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(50 + staunch);
+                    
+                        }
+                        if (economy = 1){ // Economic boom:
+                            change = +(15 - staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy = 2){ //Economic downturn:
+                            change = -(10 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(20 + staunch);
+                    
+                        }
+                        if (economy = 1){ // Economic boom:
+                            change = +(20 - staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy = 2){ //Economic downturn:
+                            change = -(5 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(15 + staunch);
+                    
+                        }
+                        if (economy = 1){ // Economic boom:
+                            change = +(25 - staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+
+            break;
+            default: //error handling
+                cout << "Error. Invalid Presidential Party.\n";
+        }
         
     }
 
