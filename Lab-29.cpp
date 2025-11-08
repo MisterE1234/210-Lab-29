@@ -167,22 +167,42 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 
                 //going through the Left party first:
                 voterParty = 1;
-                for(int i = 0; i > 3; i++){
+                for(int i = 0; i < 3; i++){
                     list <Voter>& tempList = itL->second[i];
                     
-                    for(auto vote : tempList){
-                        switch (partyChange(vote , disaster , war , economic , presidentParty , voterParty)){
+                    for(auto vote = tempList.begin(); vote !=tempList.end();){
+                        switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
                             case 0:
-                                vote.set_staunch(true);
+                                vote->set_staunch(true);
                                 lStaunch++;
                                 break;
                             case 1:
                                 break;
                             case 2:
-                                tempVote = vote;
+                                tempVote = *vote;
                                 tempList.erase(vote);
+                                itI->second[i].push_back(tempVote);
 
+                                vote->set_staunch(false);
+                                lPop--;
+                                iPop++;
+                                break;
+                            case 3:
+                                tempVote = *vote;
+                                tempList.erase(vote);
+                                itR->second[i].push_back(tempVote);
+                                vote->set_staunch(false);
                                 
+                                lPop--;
+                                rPop++;
+                                break;
+                            case 4:
+                                if(vote->get_non_vote()){
+                                    vote->set_non_vote(false);    
+                                }
+                                else
+                                    vote->set_non_vote(true);
+                            
                         }
 
                     }
