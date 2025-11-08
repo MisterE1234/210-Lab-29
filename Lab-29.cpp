@@ -172,36 +172,117 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     
                     for(auto vote = tempList.begin(); vote !=tempList.end();){
                         switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
-                            case 0:
+                            case 0://Chnage to staunch
                                 vote->set_staunch(true);
                                 lStaunch++;
                                 break;
                             case 1:
                                 break;
-                            case 2:
+                            case 2: //Change voter to Independent:
                                 tempVote = *vote;
                                 tempList.erase(vote);
                                 itI->second[i].push_back(tempVote);
+                                
+                                if(vote->get_staunch()){
+                                    vote->set_staunch(false); //no longer staunch
+                                    lStaunch--;
+                                }
+                                //changing the population count:
 
-                                vote->set_staunch(false);
                                 lPop--;
                                 iPop++;
                                 break;
-                            case 3:
+                            case 3: //change voter to Right:
                                 tempVote = *vote;
                                 tempList.erase(vote);
                                 itR->second[i].push_back(tempVote);
-                                vote->set_staunch(false);
                                 
+                                if(vote->get_staunch()){
+                                    vote->set_staunch(false); //no longer staunch
+                                    lStaunch--;
+                                }
+                                //changing the population count:
+
                                 lPop--;
                                 rPop++;
                                 break;
-                            case 4:
+                            case 4: //change voter to non-Voter:
                                 if(vote->get_non_vote()){
-                                    vote->set_non_vote(false);    
+                                    vote->set_non_vote(false);
+                                    lNon--;    
                                 }
-                                else
+                                else{
                                     vote->set_non_vote(true);
+                                    lNon++;
+                                }
+                                break;
+                            default:
+                                cout << "Error!. PartyChange not 0-4.\n";
+                                return -1;
+                            
+                        }
+
+                    }
+
+                }
+
+                //going through the Independent party next:
+                voterParty = 2;
+                for(int i = 0; i < 3; i++){
+                    list <Voter>& tempList = itL->second[i];
+                    
+                    for(auto vote = tempList.begin(); vote !=tempList.end();){
+                        switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
+                            case 0://Chnage to staunch
+                                if(!vote->get_staunch()){
+                                vote->set_staunch(true);
+                                iStaunch++;
+                                }
+                                break;
+                            case 1: //change to Left
+                                tempVote = *vote;
+                                tempList.erase(vote);
+                                itL->second[i].push_back(tempVote);
+                                
+                                if(vote->get_staunch()){
+                                    vote->set_staunch(false); //no longer staunch
+                                    iStaunch--;
+                                }
+                                //changing the population count:
+
+                                iPop--;
+                                lPop++;
+                                break;
+                            case 2: //Change voter to Independent:
+                                
+                                break;
+                            case 3: //change voter to Right:
+                                tempVote = *vote;
+                                tempList.erase(vote);
+                                itR->second[i].push_back(tempVote);
+                                
+                                if(vote->get_staunch()){
+                                    vote->set_staunch(false); //no longer staunch
+                                    iStaunch--;
+                                }
+                                //changing the population count:
+
+                                iPop--;
+                                rPop++;
+                                break;
+                            case 4: //change voter to non-Voter:
+                                if(vote->get_non_vote()){
+                                    vote->set_non_vote(false);
+                                    lNon--;    
+                                }
+                                else{
+                                    vote->set_non_vote(true);
+                                    lNon++;
+                                }
+                                break;
+                            default:
+                                cout << "Error!. PartyChange not 0-4.\n";
+                                return -1;
                             
                         }
 
