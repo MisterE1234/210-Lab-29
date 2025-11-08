@@ -164,6 +164,12 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 auto itI = polLandscape.find("Independent");
                 auto itR = polLandscape.find("Right");
                 Voter tempVote;
+
+                // for each voter see if they are going to change party, stay, or become staunch
+                        //if they become stauch it makes it harder for them to switch parties, same if they switch to non-voter.
+                        // If they become staunch update their bool variable, if tehy were staunch and left their party set their stauch to false.
+                        //If they are changing parties, save voter data to a temporary Voter and delete the original and then place the Voter in their new party.
+                        //use the int variables to keep track of how many are in a division and how many are staunch.
                 
                 //going through the Left party first:
                 voterParty = 1;
@@ -172,10 +178,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     
                     for(auto vote = tempList.begin(); vote !=tempList.end();){
                         switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
-                            case 0://Chnage to staunch
+                            case 0://Change to staunch
+                                if(!vote->get_staunch()){
                                 vote->set_staunch(true);
                                 lStaunch++;
-                                break;
+                                }
                             case 1:
                                 break;
                             case 2: //Change voter to Independent:
@@ -273,11 +280,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                             case 4: //change voter to non-Voter:
                                 if(vote->get_non_vote()){
                                     vote->set_non_vote(false);
-                                    lNon--;    
+                                    iNon--;    
                                 }
                                 else{
                                     vote->set_non_vote(true);
-                                    lNon++;
+                                    iNon++;
                                 }
                                 break;
                             default:
@@ -290,22 +297,85 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
                 }
 
+                //going through the Right party next:
+                voterParty = 3;
+                for(int i = 0; i < 3; i++){
+                    list <Voter>& tempList = itL->second[i];
+                    
+                    for(auto vote = tempList.begin(); vote !=tempList.end();){
+                        switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
+                            case 0://Chnage to staunch
+                                if(!vote->get_staunch()){
+                                vote->set_staunch(true);
+                                rStaunch++;
+                                }
+                                break;
+                            case 1: //change to Left
+                                tempVote = *vote;
+                                tempList.erase(vote);
+                                itL->second[i].push_back(tempVote);
+                                
+                                if(vote->get_staunch()){
+                                    vote->set_staunch(false); //no longer staunch
+                                    rStaunch--;
+                                }
+                                //changing the population count:
 
+                                rPop--;
+                                lPop++;
+                                break;
+                            case 2: //Change voter to Independent:
+                                tempVote = *vote;
+                                tempList.erase(vote);
+                                itI->second[i].push_back(tempVote);
+                                
+                                if(vote->get_staunch()){
+                                    vote->set_staunch(false); //no longer staunch
+                                    rStaunch--;
+                                }
+                                //changing the population count:
 
+                                rPop--;
+                                iPop++;
+                                break;
+                            case 3: //change voter to Right:
+
+                                break;
+                            case 4: //change voter to non-Voter:
+                                if(vote->get_non_vote()){
+                                    vote->set_non_vote(false);
+                                    rNon--;    
+                                }
+                                else{
+                                    vote->set_non_vote(true);
+                                    rNon++;
+                                }
+                                break;
+                            default:
+                                cout << "Error!. PartyChange not 0-4.\n";
+                                return -1;
+                            
+                        }
+
+                    }
+
+                }
+
+                //Now to display the results:
+                //Print the changes by displaying the current party population with staunches as well.
+                        //Pause after each display and wait for the user to confirm to continue.
+                cout << "Left Party Population: " << lPop << ", Staunch: " << lStaunch << ", Non-voters: " << lNon << endl;
+                cout << "Independent Party Population: " << iPop << ", Staunch: " << iStaunch << ", Non-voters: " << iNon << endl;
+                cout << "Right Party Population: " << rPop << ", Staunch: " << rStaunch << ", Non-voters: " << rNon << endl;
                         
                 }
                 
                 
 
                 
-                    // for each voter see if they are going to change party, stay, or become staunch
-                        //if they become stauch it makes it harder for them to switch parties, same if they switch to non-voter.
-                        // If they become staunch update their bool variable, if tehy were staunch and left their party set their stauch to false.
-                        //If they are changing parties, save voter data to a temporary Voter and delete the original and then place the Voter in their new party.
-                        //use the int variables to keep track of how many are in a division and how many are staunch.
+                    
 
-                    //Print the changes by displaying the current party population with staunches as well.
-                        //Pause after each display and wait for the user to confirm to continue.
+                    
 
 
      
