@@ -401,7 +401,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 }
 
             break;
-            default:
+            default: //error handling
                 cout << "Error. Invalid Presidential Party.\n";
         }
         break;
