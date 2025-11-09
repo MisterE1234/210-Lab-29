@@ -172,6 +172,16 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
         else if(presidentParty == 3){
             cout << "The president is Right\n";
         }
+        
+        //declaring the iterator going to be used to keep track of the maps and their lists.
+        auto itL  = polLandscape.find("Left");
+        auto itI = polLandscape.find("Independent");
+        auto itR = polLandscape.find("Right");
+
+        //declaring the temporary Voter and iterators:
+        Voter tempVote;
+        auto itTempI = polLandscape.find("tempI");
+        auto itTempR = polLandscape.find("tempR");
 
 
         for (int year = 0; year < AMOUNT_SIMULATE; year++){
@@ -220,13 +230,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 }
                 //Iterate thorugh each map and list.
                 
-                auto itL  = polLandscape.find("Left");
-                auto itI = polLandscape.find("Independent");
-                auto itR = polLandscape.find("Right");
-                //declaring the temporary Voter and iterators:
-                Voter tempVote;
-                auto itTempI = polLandscape.find("tempI");
-                auto itTempR = polLandscape.find("tempR");
+                
 
 
 
@@ -750,15 +754,31 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
                 }
                 
-                
+    cout << "Thank you for this program!";            
+    //Clearing the lists of data:
+    for(int i = 0; i < 3; i++){ //clearing the Left lists
+        itL->second[i].clear();
+    }
+    for(int i = 0; i < 3; i++){//clearing the Independent lists
+        itI->second[i].clear();
+    }
+    for(int i = 0; i < 3; i++){//clearing the Right lists
+        itR->second[i].clear();
+    }
+    for(int i = 0; i < 3; i++){//clearing the Temporary Independent list
+        itTempI->second[i].clear();
+    }
+    for(int i = 0; i < 3; i++){//clearing the Temporary Independent list
+        itTempR->second[i].clear();
+    }
 
                 
                     
 
                     
-
-
-     return 0;
+    
+    
+    return 0;
     
     //end of main function.
 }
