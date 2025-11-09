@@ -367,7 +367,20 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 cout << "Left Party Population: " << lPop << ", Staunch: " << lStaunch << ", Non-voters: " << lNon << endl;
                 cout << "Independent Party Population: " << iPop << ", Staunch: " << iStaunch << ", Non-voters: " << iNon << endl;
                 cout << "Right Party Population: " << rPop << ", Staunch: " << rStaunch << ", Non-voters: " << rNon << endl;
-                        
+                
+                //deciding who is in charge next:
+                int lVote = lPop - lNon;
+                int iVote = iPop - iNon;
+                int rVote = rPop - rNon;
+
+                if(lVote > iVote){
+                    if(lVote > rVote){
+                        presidentParty = 1;
+                        cout << "The new President is Left!\n";
+                    }
+
+                    else if (lVote < rVote){}
+                }
                 }
                 
                 

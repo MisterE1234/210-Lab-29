@@ -2,3 +2,4 @@ Bugs: I did not complete the alpha like I wanted so I have to make that work fir
 I will make the events effect the voters by iterating through each list and keep track of the new sizes of each map.
 3rd update: tempList cannot erase as it is in a range-based loop. I need a iterator based loop. oops.
 5th update: I noticed that the staunch population trackers would always increase when partyChange was zero even if the voter was already staunch. fixed it with a if statement.
+6th Update: I have made the display for the parties. However I suspect that they might be a bit skewed as a single vote from hihger up in the code could go through the event again in parties below it. I am not sure what to do about yet. maybe make a copy map? I'll deal with it later, but I am making a note of it.
