@@ -13,7 +13,7 @@
 #include <array>
 
 using namespace std;
-const bool debug = true;
+const bool debug = false;
 
 const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
 
@@ -324,20 +324,29 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 //going through the Independent party next:
                 voterParty = 2;
                 for(int i = 0; i < 3; i++){
-                    list <Voter>& tempList = itL->second[i];
+                    list <Voter>& tempList = itI->second[i];
                     if(debug){
                         cout << "Independents Processing...\n";
                     }
                     
                     for(auto vote = tempList.begin(); vote !=tempList.end();){
+                        if(debug){
+                        cout << "Independents Processing the 2nd...\n";
+                        }
                         switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
                             case 0://Chnage to staunch
+                                if(debug){
+                                    cout << "Becoming staunch\n";
+                                }
                                 if(!vote->get_staunch()){
                                 vote->set_staunch(true);
                                 iStaunch++;
                                 }
                                 break;
                             case 1: //change to Left
+                                if(debug){
+                                    cout << "Becoming Left\n";
+                                }
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     iStaunch--;
@@ -354,9 +363,14 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 lPop++;
                                 break;
                             case 2: //Change voter to Independent:
-                                
+                                if(debug){
+                                    cout << "staying Independent\n";
+                                }
                                 break;
                             case 3: //change voter to Right:
+                                if(debug){
+                                    cout << "Becoming Right\n";
+                                }
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     iStaunch--;
@@ -373,6 +387,9 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 rPop++;
                                 break;
                             case 4: //change voter to non-Voter:
+                                if(debug){
+                                    cout << "Becoming non-Voter\n";
+                                }
                                 if(vote->get_non_vote()){
                                     vote->set_non_vote(false);
                                     iNon--;    
@@ -393,23 +410,37 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 }
 
                 if(debug){
-                    cout << "starting on Rights:";
+                    cout << "starting on Rights:\n";
                 }
 
                 //going through the Right party next:
                 voterParty = 3;
                 for(int i = 0; i < 3; i++){
-                    list <Voter>& tempList = itL->second[i];
+                    list <Voter>& tempList = itR->second[i];
+
+                    if(debug){
+                        cout << "Right Processing...\n";
+                    }
                     
                     for(auto vote = tempList.begin(); vote !=tempList.end();){
+
+                        if(debug){
+                            cout << "Right Processing the 2nd...\n";
+                        }
                         switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
                             case 0://Chnage to staunch
+                                if(debug){
+                                    cout << "Becoming staunch\n";
+                                }
                                 if(!vote->get_staunch()){
                                 vote->set_staunch(true);
                                 rStaunch++;
                                 }
                                 break;
                             case 1: //change to Left
+                                if(debug){
+                                    cout << "Becoming Left\n";
+                                }
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     rStaunch--;
@@ -426,6 +457,9 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 lPop++;
                                 break;
                             case 2: //Change voter to Independent:
+                                if(debug){
+                                    cout << "Becoming Independent\n";
+                                }
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     rStaunch--;
@@ -442,9 +476,15 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 iPop++;
                                 break;
                             case 3: //change voter to Right:
+                                if(debug){
+                                    cout << "Staying Right\n";
+                                }
 
                                 break;
                             case 4: //change voter to non-Voter:
+                                if(debug){
+                                    cout << "Becoming non-Voter\n";
+                                }
                                 if(vote->get_non_vote()){
                                     vote->set_non_vote(false);
                                     rNon--;    
