@@ -1499,7 +1499,7 @@ if(debug){
             newParty = party;
             return newParty;
         }
-        else if(prob < 100){ //chance to change party (1-3)
+        else if(prob < 110){ //chance to change party (1-3)
             newParty = (rand()%3) + 1;
 
             if(debug){
@@ -1507,7 +1507,7 @@ if(debug){
             }
             return newParty;
         }
-        else if(prob >= 100){// become non-voter (4)
+        else if(prob >= 110){// become non-voter (4)
             newParty = 4;
             return newParty;
         }
