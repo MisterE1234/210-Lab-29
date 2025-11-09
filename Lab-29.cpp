@@ -256,9 +256,9 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 break;
                             case 2: //Change voter to Independent:
 
-                            if(debug){
-                                cout << "switching to Independent\n";
-                            }
+                                if(debug){
+                                    cout << "switching to Independent\n";
+                                }
                                 if(vote->get_non_vote()){
                                     lNon--;
                                     iNon++;
