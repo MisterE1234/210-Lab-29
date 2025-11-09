@@ -472,7 +472,24 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     while(!valid){
                         cout << "Continue? (y/n): ";
                         cin >> confirm;
-                        
+
+                        if(cin.fail()){
+                            cin.clear();
+                            cin.ignore(10000, '\n');
+                            cout << "Invalid input. try again.\n";
+                        }
+                        else if(confirm == 'y' || confirm == 'Y'){
+                            valid = true;
+                            cout << "Continuing ... \n";
+                        }
+                        else if (confirm == 'n' || confirm == 'N'){
+                            valid = true;
+                            cout << "Closing program ...\n";
+                            exit;
+                        }
+                        else{
+                            cout << "Error. Not y or n. Try again.\n";
+                        }
                     }
 
                 }
@@ -1177,21 +1194,24 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
         
     }
 
-    prob = (rand()%100) + change;
-    if(prob < 5){ // become staunch (0)
-        return newParty;
-    }
-    else if(prob < 20){ // stay in party (party)
-        newParty = party;
-        return newParty;
-    }
-    else if(prob < 95){ //chance to change party (1-3)
-        newParty = (rand()%3) + 1;
-        return newParty;
-    }
-    else if(prob >= 95){// become non-voter (4)
-        newParty = 4;
-        return newParty;
+
+    while(true){
+        prob = (rand()%100) + change;
+        if(prob < 5){ // become staunch (0)
+            return newParty;
+        }
+        else if(prob < 20){ // stay in party (party)
+            newParty = party;
+            return newParty;
+        }
+        else if(prob < 95){ //chance to change party (1-3)
+            newParty = (rand()%3) + 1;
+            return newParty;
+        }
+        else if(prob >= 95){// become non-voter (4)
+            newParty = 4;
+            return newParty;
+        }
     }
     
 
