@@ -789,14 +789,16 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 }
 
 
-
+//partyChange(): a function that would simulate the results of the event[s] and what would have happend for this voting period and how they affect different voters using a bunch of if and switch statments.
+    //Parameters: a voter, 2 bools for the disaster and war events, and int variable for the economic events ,  an int to hold the presidents party, and an int hold the voters party.
+    //returns: an integer indicating which party they are a part of now and and if they are staunch.
 int partyChange(Voter v, bool disaster, bool war, int economy, int president, int party){
     int newParty = 0;
     int change = 0;
     int prob;
     int staunch = 0;
     if(v.get_staunch()){
-            staunch = 20;
+            staunch = 15;
         }
         
     if(debug){
@@ -822,7 +824,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                         }
 
                         if (war == true) { //war happened:
-                            change = +(40 - staunch);
+                            change = +(30 - staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
@@ -845,7 +847,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                         }
 
                         if (war == true) { //war happened:
-                            change = +(50 - staunch);
+                            change = +(35 - staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
@@ -858,15 +860,15 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
             //right leaning:
                     case 3:{
                         if (economy = 2){ //Economic downturn:
-                            change = +(40 - staunch);
+                            change = +(35 - staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
-                            change = +(45 - staunch);
+                            change = +(20 - staunch);
                         }
 
                         if (war == true) { //war happened:
-                            change = +(60 - staunch);
+                            change = +(35 - staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
@@ -922,7 +924,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = +(25 - staunch);
+                            change = +(20 - staunch);
                         }
 
                 
@@ -943,7 +945,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = +(20 - staunch);
+                            change = +(25 - staunch);
                         }
 
                     break;
