@@ -237,41 +237,60 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
                         switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
                             case 0://Change to staunch
+                            if(debug){
+                                cout << "Becoming staunch\n";
+                            }
                                 if(!vote->get_staunch()){
                                 vote->set_staunch(true);
                                 lStaunch++;
                                 }
                             case 1:
+                            if(debug){
+                                cout << "Staying in Left\n";
+                            }
                                 break;
                             case 2: //Change voter to Independent:
-                                tempVote = *vote;
-                                tempList.erase(vote);
-                                itI->second[i].push_back(tempVote);
-                                
+
+                            if(debug){
+                                cout << "switching to Independent\n";
+                            }
+
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     lStaunch--;
                                 }
+                                tempVote = *vote;
+                                tempList.erase(vote);
+                                itI->second[i].push_back(tempVote);
+                            
                                 //changing the population count:
 
                                 lPop--;
                                 iPop++;
                                 break;
                             case 3: //change voter to Right:
-                                tempVote = *vote;
-                                tempList.erase(vote);
-                                itR->second[i].push_back(tempVote);
-                                
+                            if(debug){
+                                cout << "switching to Right\n";
+                            }
+                            
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     lStaunch--;
                                 }
+                                tempVote = *vote;
+                                tempList.erase(vote);
+                                itR->second[i].push_back(tempVote);
+                                
+                                
                                 //changing the population count:
 
                                 lPop--;
                                 rPop++;
                                 break;
                             case 4: //change voter to non-Voter:
+                            if(debug){
+                                cout << "Becoming a non-voter\n";
+                            }
                                 if(vote->get_non_vote()){
                                     vote->set_non_vote(false);
                                     lNon--;    
@@ -286,7 +305,9 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 return -1;
                             
                         }
-
+                        if(debug){
+                            cout << "at the end of Left loop\n";
+                        }
                     }
 
                 }
@@ -1270,7 +1291,10 @@ if(debug){
     cout << "At the end of partyChange():\n";
 }
     while(true){
-        prob = (rand()%100) + change;
+        prob = ((rand()%100) + change);
+        if(debug){
+            cout << "prob: " << prob << endl;
+        }
         if(prob < 5){ // become staunch (0)
             return newParty;
         }
@@ -1280,6 +1304,10 @@ if(debug){
         }
         else if(prob < 95){ //chance to change party (1-3)
             newParty = (rand()%3) + 1;
+
+            if(debug){
+                cout << "new party is " << newParty << endl;
+            }
             return newParty;
         }
         else if(prob >= 95){// become non-voter (4)
