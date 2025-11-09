@@ -15,7 +15,7 @@
 using namespace std;
 const bool debug = false;
 
-const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
+const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 20, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
 
 //Define a class named Voter:
     //would hold a int political leaning variable with three options (1-3). To represent left, moderate, right.
@@ -172,6 +172,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
         else if(presidentParty == 3){
             cout << "The president is Right\n";
         }
+
+        //Displaying the initial Party compilation:
+        cout << "Left Party Population: " << lPop << ", Staunch: " << lStaunch << ", Non-voters: " << lNon << endl;
+        cout << "Independent Party Population: " << iPop << ", Staunch: " << iStaunch << ", Non-voters: " << iNon << endl;
+        cout << "Right Party Population: " << rPop << ", Staunch: " << rStaunch << ", Non-voters: " << rNon << endl << endl;
         
         //declaring the iterator going to be used to keep track of the maps and their lists.
         auto itL  = polLandscape.find("Left");
@@ -1486,11 +1491,11 @@ if(debug){
         if(prob < 5){ // become staunch (0)
             return newParty;
         }
-        else if(prob < 60){ // stay in party (party)
+        else if(prob < 50){ // stay in party (party)
             newParty = party;
             return newParty;
         }
-        else if(prob < 95){ //chance to change party (1-3)
+        else if(prob < 100){ //chance to change party (1-3)
             newParty = (rand()%3) + 1;
 
             if(debug){
@@ -1498,7 +1503,7 @@ if(debug){
             }
             return newParty;
         }
-        else if(prob >= 95){// become non-voter (4)
+        else if(prob >= 100){// become non-voter (4)
             newParty = 4;
             return newParty;
         }
