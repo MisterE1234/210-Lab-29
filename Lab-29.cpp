@@ -924,7 +924,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = +(20 - staunch);
+                            change = +(25 - staunch);
                         }
 
                 
@@ -945,7 +945,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     
                         }
                         if (economy = 1){ // Economic boom:
-                            change = +(25 - staunch);
+                            change = +(20 - staunch);
                         }
 
                     break;
@@ -984,11 +984,11 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     case 2:{
                 
                         if (economy = 2){ //Economic downturn:
-                            change = -(10 + staunch);
+                            change = -(15 + staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
-                            change = -(10 + staunch);
+                            change = -(15 + staunch);
                         }
 
                         if (war == true) { //war happened:
@@ -1005,7 +1005,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
             //right leaning:
                     case 3:{
                         if (economy = 2){ //Economic downturn:
-                            change = -(5 + staunch);
+                            change = -(15 + staunch);
                         }
 
                         if (disaster == true){ // disaster happened:
@@ -1013,7 +1013,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                         }
 
                         if (war == true) { //war happened:
-                            change = -(15 + staunch);
+                            change = -(25 + staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:

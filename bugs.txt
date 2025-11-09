@@ -23,3 +23,5 @@ okay I will now address the whole processing problem. It is far more likely that
 The lists need to be cleared at the of the program. also the confirmation to continue should not happen on the final loop. I will set an if variable to check if it is the final loop. 
 
 I am going to put the initial party line at the begining as it is a little odd that the user cannot see how the simulation starts out.
+
+The Left party is too prone to go non-voting and the Right party rarely goes below 30 members which is not how should be. I need to tweak some values.
