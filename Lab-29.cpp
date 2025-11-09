@@ -157,7 +157,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
     // Begin a time-based simulation for voting changes:
         //25 time intervals
-        for (int year = 0; year < AMOUNT_SIMULATE, year++;){
+        for (int year = 0; year < AMOUNT_SIMULATE; year++){
             if(debug){
                 cout << "Sim " << year << endl;
             }
