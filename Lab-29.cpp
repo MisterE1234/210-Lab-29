@@ -157,29 +157,37 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
     // Begin a time-based simulation for voting changes:
         //25 time intervals
-        for (int year = 0; year > AMOUNT_SIMULATE, year++;){
+        for (int year = 0; year < AMOUNT_SIMULATE, year++;){
+            if(debug){
+                cout << "Sim " << year << endl;
+            }
             // run a random numbers for disaster, war, and economic condition.
-            for (int e = 1; e >= EVENT_NUM, e++;){
+            economic = 0;
+
+            
+            for (int e = 0; e < EVENT_NUM, e++;){
                 event = rand()%100 + 1;
 
                 switch(e){
-                    case 1:
+                    case 0:
                     if (event <= PROB_DISASTER){
                         disaster = true;
                     }
                     break;
-                    case 2:
+                    case 1:
                     if (event <= PROB_WAR){
                         war = true;
                     }
                     break;
-                    case 3:
+                    case 2:
                     if (event <= PROB_ECONOMY){
                         economic = 1;
                     }
                     else if(event >= 100 - PROB_ECONOMY)
                         economic = 2;
                     break;
+                    default:
+                    cout << "Error. wrong number of events.\n";
 
                 }
 
@@ -207,6 +215,9 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     list <Voter>& tempList = itL->second[i];
                     
                     for(auto vote = tempList.begin(); vote !=tempList.end();){
+                        
+
+
                         switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
                             case 0://Change to staunch
                                 if(!vote->get_staunch()){
