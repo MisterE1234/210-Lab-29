@@ -15,3 +15,5 @@ okay simple fix. I created the Left processing first and when I was done with ta
 
 The probability of changing parties is too high, so I will decrease it and increase the likelyhood of staying in their current party.
 me changing the probability, casued the for iterator loop to hang. It is because the iterator is never advancing. I just need to advance the iterator when someone stays, becomes staunch, or becomes non-voting.
+
+I noticed that a voter could be both staunch and non-voting, but occasionally only non-voting. The non-voters should be naturally staunch as they have given up voting so do not feel the need to switch parties.

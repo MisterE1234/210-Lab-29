@@ -13,7 +13,7 @@
 #include <array>
 
 using namespace std;
-const bool debug = true;
+const bool debug = false;
 
 const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
 
@@ -313,6 +313,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 else{
                                     vote->set_non_vote(true);
                                     lNon++;
+
+                                    if(!vote->get_staunch()){
+                                        vote->set_staunch(true);
+                                        lStaunch++;
+                                    }
                                 }
                                 vote++;
                                 break;
@@ -353,6 +358,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 vote->set_staunch(true);
                                 iStaunch++;
                                 }
+                                vote++;
                                 break;
                             case 1: //change to Left
                                 if(debug){
@@ -382,6 +388,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(debug){
                                     cout << "staying Independent\n";
                                 }
+                                vote++;
                                 break;
                             case 3: //change voter to Right:
                                 if(debug){
@@ -417,8 +424,13 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 }
                                 else{
                                     vote->set_non_vote(true);
+                                    if(!vote->get_staunch()){
+                                        vote->set_staunch(true);
+                                        iStaunch++;
+                                    }
                                     iNon++;
                                 }
+                                vote++;
                                 break;
                             default:
                                 cout << "Error!. PartyChange not 0-4.\n";
@@ -457,6 +469,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 vote->set_staunch(true);
                                 rStaunch++;
                                 }
+                                vote++;
                                 break;
                             case 1: //change to Left
                                 if(debug){
@@ -510,7 +523,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(debug){
                                     cout << "Staying Right\n";
                                 }
-
+                                vote++;
                                 break;
                             case 4: //change voter to non-Voter:
                                 if(debug){
@@ -522,8 +535,13 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 }
                                 else{
                                     vote->set_non_vote(true);
+                                    if(!vote->get_staunch()){
+                                        vote->set_staunch(true);
+                                        rStaunch++;
+                                    }
                                     rNon++;
                                 }
+                                vote++;
                                 break;
                             default:
                                 cout << "Error!. PartyChange not 0-4.\n";
