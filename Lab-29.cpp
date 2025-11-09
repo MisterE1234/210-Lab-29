@@ -259,7 +259,10 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                             if(debug){
                                 cout << "switching to Independent\n";
                             }
-
+                                if(vote->get_non_vote()){
+                                    lNon--;
+                                    iNon++;
+                                }
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     lStaunch--;
@@ -274,10 +277,14 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 iPop++;
                                 break;
                             case 3: //change voter to Right:
-                            if(debug){
-                                cout << "switching to Right\n";
-                            }
-                            
+                                if(debug){
+                                    cout << "switching to Right\n";
+                                }
+
+                                if(vote->get_non_vote()){
+                                    lNon--;
+                                    rNon++;
+                                }
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     lStaunch--;
@@ -347,6 +354,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(debug){
                                     cout << "Becoming Left\n";
                                 }
+
+                                if(vote->get_non_vote()){
+                                    iNon--;
+                                    lNon++;
+                                }
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     iStaunch--;
@@ -370,6 +382,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                             case 3: //change voter to Right:
                                 if(debug){
                                     cout << "Becoming Right\n";
+                                }
+
+                                if(vote->get_non_vote()){
+                                    iNon--;
+                                    rNon++;
                                 }
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
@@ -441,6 +458,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(debug){
                                     cout << "Becoming Left\n";
                                 }
+
+                                if(vote->get_non_vote()){
+                                    rNon--;
+                                    lNon++;
+                                }
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     rStaunch--;
@@ -459,6 +481,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                             case 2: //Change voter to Independent:
                                 if(debug){
                                     cout << "Becoming Independent\n";
+                                }
+
+                                if(vote->get_non_vote()){
+                                    rNon--;
+                                    iNon++;
                                 }
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
