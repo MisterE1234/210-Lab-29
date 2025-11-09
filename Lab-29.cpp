@@ -13,7 +13,7 @@
 #include <array>
 
 using namespace std;
-const bool debug = false;
+const bool debug = true;
 
 const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
 
@@ -184,19 +184,24 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     case 0:
                     if (event <= PROB_DISASTER){
                         disaster = true;
+                        cout << "A disaster has happened...\n";
                     }
                     break;
                     case 1:
                     if (event <= PROB_WAR){
                         war = true;
+                        cout << "A war has broken out...\n";
                     }
                     break;
                     case 2:
                     if (event <= PROB_ECONOMY){
                         economic = 1;
+                        cout << "An Economic Boom!\n";
                     }
-                    else if(event >= 100 - PROB_ECONOMY)
+                    else if(event >= 100 - PROB_ECONOMY){
                         economic = 2;
+                        cout << "An economic downturn...\n";
+                    }
                     break;
                     default:
                     cout << "Error. wrong number of events.\n";
@@ -320,6 +325,9 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 voterParty = 2;
                 for(int i = 0; i < 3; i++){
                     list <Voter>& tempList = itL->second[i];
+                    if(debug){
+                        cout << "Independents Processing...\n";
+                    }
                     
                     for(auto vote = tempList.begin(); vote !=tempList.end();){
                         switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
@@ -457,7 +465,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 }
 
                 //Now to display the results:
-                cout << "Voting year " << year << ": \n";
+                cout << "Voting year " << (year + 1) << ": \n";
                 //Print the changes by displaying the current party population with staunches as well.
                         //Pause after each display and wait for the user to confirm to continue.
                 cout << "Left Party Population: " << lPop << ", Staunch: " << lStaunch << ", Non-voters: " << lNon << endl;
@@ -581,7 +589,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                         else if (confirm == 'n' || confirm == 'N'){
                             valid = true;
                             cout << "Closing program ...\n";
-                            exit;
+                            return 0;
                         }
                         else{
                             cout << "Error. Not y or n. Try again.\n";
@@ -598,7 +606,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     
 
 
-     
+     return 0;
     
     //end of main function.
 }
