@@ -115,21 +115,37 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
         // for each line extract a party affilation to make a voter.
     for(int i = 0; i < INITIAL_R; i++){
         iFile >> temp;
-        it->second[temp].push_back(Voter(temp));  
+        it->second[temp - 1].push_back(Voter(temp));  
+
+        if(debug){
+            cout << "New party member!\n";
+        }
+    }
+
+    if(debug){
+        cout << "Right party has voters!\n";
     }
 
     it  = polLandscape.find("Left");
         // for each line extract a party affilation to make a voter.
     for(int i = 0; i < INITIAL_L; i++){
         iFile >> temp;
-        it->second[temp].push_back(Voter(temp));  
+        it->second[temp - 1].push_back(Voter(temp));  
+    }
+
+    if(debug){
+        cout << "Left party has voters!\n";
     }
 
     it  = polLandscape.find("Independent");
         // for each line extract a party affilation to make a voter.
     for(int i = 0; i < INITIAL_I; i++){
         iFile >> temp;
-        it->second[temp].push_back(Voter(temp));  
+        it->second[temp - 1].push_back(Voter(temp));  
+    }
+
+    if(debug){
+        cout << "Independent party has voters!\n";
     }
 
     //close file
@@ -376,6 +392,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 }
 
                 //Now to display the results:
+                cout << "Voting year " << year << ": \n";
                 //Print the changes by displaying the current party population with staunches as well.
                         //Pause after each display and wait for the user to confirm to continue.
                 cout << "Left Party Population: " << lPop << ", Staunch: " << lStaunch << ", Non-voters: " << lNon << endl;

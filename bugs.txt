@@ -5,3 +5,5 @@ I will make the events effect the voters by iterating through each list and keep
 6th Update: I have made the display for the parties. However I suspect that they might be a bit skewed as a single vote from hihger up in the code could go through the event again in parties below it. I am not sure what to do about yet. maybe make a copy map? I'll deal with it later, but I am making a note of it.
 10th update: There is a path in partyChange() that might not return an integer. I will apply a while loop to validate that the int is returned.
 11th update: I noticed that in the big for loop I use i twice for two different for one of for loops inside the other. I will change the first one as it does not matter as much.
+So something goes wrong before the file is closed. probably reading the file into the different lists. I will test by using debug phrases.
+Okay so somethings wrong with my reading method entirely. it can only add two voter before crashing. I think that because the array is seeing [3] when it can only do [(0-2)]
