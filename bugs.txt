@@ -12,4 +12,6 @@ Okay so somethings wrong with my reading method entirely. it can only add two vo
 18th update: I notice that the independents and right processing is being skipped. I have tested and I can see that the problem is the iterator is being skipped.
 okay simple fix. I created the Left processing first and when I was done with taht I coppied it for the Independent and Right parties, but failed to update which map I was using.
 19th update: I realised that never had the nonPop variable update when a non-voter leaves a party. I will change that.
+
 The probability of changing parties is too high, so I will decrease it and increase the likelyhood of staying in their current party.
+me changing the probability, casued the for iterator loop to hang. It is because the iterator is never advancing. I just need to advance the iterator when someone stays, becomes staunch, or becomes non-voting.

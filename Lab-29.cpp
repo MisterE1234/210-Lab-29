@@ -13,7 +13,7 @@
 #include <array>
 
 using namespace std;
-const bool debug = false;
+const bool debug = true;
 
 const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
 
@@ -249,10 +249,13 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 vote->set_staunch(true);
                                 lStaunch++;
                                 }
+                                vote++;
+                                break;
                             case 1:
                             if(debug){
                                 cout << "Staying in Left\n";
                             }
+                            vote++;
                                 break;
                             case 2: //Change voter to Independent:
 
@@ -311,6 +314,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     vote->set_non_vote(true);
                                     lNon++;
                                 }
+                                vote++;
                                 break;
                             default:
                                 cout << "Error!. PartyChange not 0-4.\n";
