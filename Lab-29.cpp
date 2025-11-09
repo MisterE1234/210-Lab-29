@@ -1381,7 +1381,7 @@ if(debug){
         if(prob < 5){ // become staunch (0)
             return newParty;
         }
-        else if(prob < 20){ // stay in party (party)
+        else if(prob < 60){ // stay in party (party)
             newParty = party;
             return newParty;
         }
