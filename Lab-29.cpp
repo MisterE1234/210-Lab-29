@@ -393,7 +393,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 valid = true;
                             }
 
-                            if(presidentParty == 3){
+                            else if(presidentParty == 3){
                                 cout << "The new President is Right!\n";
                                 valid = true;
 
@@ -405,35 +405,76 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
                 }
 
-                else if(lVote < iVote){ // if Left has less people than Indpendent:
-                    if(iVote > rVote){ //if Independent has more people than Right:
-                        presidentParty = 2;
-                        cout << "The new President is Independent!\n";
-                    }
-
-                    else if (iVote < rVote){ // if Independent has less people than Right:
-                        presidentParty = 3;
-                        cout << "The new President is Right!\n";
-                    }
-
-                    else{ //if Left and Right are tied
-                        while(!valid){
-                            presidentParty = rand()%3 + 1; //coin flip
-                            if(presidentParty == 1){
-                                cout << "The new President is Left!\n";
-                                valid = true;
-                            }
-
-                            if(presidentParty == 3){
-                                cout << "The new President is Right!\n";
-                                valid = true;
-
-                            }
-
+                    else if(lVote < iVote){ // if Left has less people than Indpendent:
+                        if(iVote > rVote){ //if Independent has more people than Right:
+                            presidentParty = 2;
+                            cout << "The new President is Independent!\n";
                         }
+
+                        else if (iVote < rVote){ // if Independent has less people than Right:
+                            presidentParty = 3;
+                            cout << "The new President is Right!\n";
+                        }
+
+                        else{ //if Independent and Right are tied
+                            while(!valid){
+                                presidentParty = rand()%3 + 1; //coin flip
+                                if(presidentParty == 2){
+                                    cout << "The new President is Independent!\n";
+                                    valid = true;
+                                }
+
+                                else if(presidentParty == 3){
+                                    cout << "The new President is Right!\n";
+                                    valid = true;
+
+                                }
+
+                            }
                         valid = false;
+                        }
                     }
-                }
+                    else{//If Left and Independent are tied:
+                        
+
+                        if (lVote < rVote){ // if Left has less people than Right:
+                            presidentParty = 3;
+                            cout << "The new President is Right!\n";
+                        }
+
+                        else{ //if Left and Right are tied
+                            while(!valid){
+                                presidentParty = rand()%3 + 1; //coin flip
+                                if(presidentParty == 1){
+                                    cout << "The new President is Left!\n";
+                                    valid = true;
+                                }
+
+                                else if(presidentParty == 2){
+                                    cout << "The new President is Independent!\n";
+                                    valid = true;
+                                }
+
+                                else if(presidentParty == 3){
+                                    cout << "The new President is Right!\n";
+                                    valid = true;
+
+                                }
+
+                            }
+                            valid = false;
+                        }
+
+
+                    }
+
+                    //Confirm to continue:
+                    while(!valid){
+                        cout << "Continue? (y/n): ";
+                        cin >> confirm;
+                        
+                    }
+
                 }
                 
                 
