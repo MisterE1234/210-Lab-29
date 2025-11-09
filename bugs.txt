@@ -17,3 +17,5 @@ The probability of changing parties is too high, so I will decrease it and incre
 me changing the probability, casued the for iterator loop to hang. It is because the iterator is never advancing. I just need to advance the iterator when someone stays, becomes staunch, or becomes non-voting.
 
 I noticed that a voter could be both staunch and non-voting, but occasionally only non-voting. The non-voters should be naturally staunch as they have given up voting so do not feel the need to switch parties.
+
+okay I will now address the whole processing problem. It is far more likely that the left gains voters right now as its voter are processed twice and sometimes even thrice. I will make two new maps that will hold the voter being transfered to the Independent party and Right party until the processing for reach loop is over.

@@ -91,9 +91,14 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
         cout << "testing Phrase:\n\n";
         }
 
+    //declaring the parties with their maps:
     polLandscape["Right"] = {};
     polLandscape["Left"] = {};
     polLandscape["Independent"] = {};
+
+    //declaring the temporary maps to hold transfered voter during processing.
+    polLandscape["tempI"] = {};
+    polLandscape["tempR"] = {};
     //Open a external file to read integer to the list to become voters.
         //if it does not open, print an error message and return -1.
 
@@ -218,7 +223,12 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 auto itL  = polLandscape.find("Left");
                 auto itI = polLandscape.find("Independent");
                 auto itR = polLandscape.find("Right");
+                //declaring the temporary Voter and iterators:
                 Voter tempVote;
+                auto itTempI = polLandscape.find("tempI");
+                auto itTempR = polLandscape.find("tempR");
+
+
 
                 // for each voter see if they are going to change party, stay, or become staunch
                         //if they become stauch it makes it harder for them to switch parties, same if they switch to non-voter.
