@@ -19,3 +19,5 @@ me changing the probability, casued the for iterator loop to hang. It is because
 I noticed that a voter could be both staunch and non-voting, but occasionally only non-voting. The non-voters should be naturally staunch as they have given up voting so do not feel the need to switch parties.
 
 okay I will now address the whole processing problem. It is far more likely that the left gains voters right now as its voter are processed twice and sometimes even thrice. I will make two new maps that will hold the voter being transfered to the Independent party and Right party until the processing for reach loop is over.
+
+The lists need to be cleared at the of the program. also the confirmation to continue should not happen on the final loop. I will set an if variable to check if it is the final loop. 

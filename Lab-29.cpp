@@ -284,7 +284,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 }
                                 tempVote = *vote;
                                 vote = tempList.erase(vote);
-                                itI->second[i].push_back(tempVote);
+                                itTempI->second[i].push_back(tempVote);
                             
                                 //changing the population count:
 
@@ -309,7 +309,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 }
                                 tempVote = *vote;
                                 vote = tempList.erase(vote);
-                                itR->second[i].push_back(tempVote);
+                                itTempR->second[i].push_back(tempVote);
                                 
                                 
                                 //changing the population count:
@@ -430,7 +430,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 
                                 tempVote = *vote;
                                 vote = tempList.erase(vote);
-                                itR->second[i].push_back(tempVote);
+                                itTempR->second[i].push_back(tempVote);
                                 
                                 
                                 //changing the population count:
@@ -466,6 +466,20 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
                     }
 
+                }
+                //transfering the voters from Left that switched over:
+                for(int i = 0; i < 3; i++){
+                    list <Voter>& tempList = itTempI->second[i];
+                    if(debug){
+                        cout << "Independents Processing...\n";
+                    }
+                    
+                    for(auto vote = tempList.begin(); vote !=tempList.end();){
+                        tempVote = *vote;
+                        vote = tempList.erase(vote);
+                        itI->second[i].push_back(tempVote);
+
+                    }
                 }
 
                 if(debug){
@@ -585,6 +599,21 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
                 }
 
+                //Transfering the voters that switched to the Right party:
+                for(int i = 0; i < 3; i++){
+                    list <Voter>& tempList = itTempR->second[i];
+                    if(debug){
+                        cout << "Independents Processing...\n";
+                    }
+                    
+                    for(auto vote = tempList.begin(); vote !=tempList.end();){
+                        tempVote = *vote;
+                        vote = tempList.erase(vote);
+                        itR->second[i].push_back(tempVote);
+
+                    }
+                }
+
                 //Now to display the results:
                 cout << "Voting year " << (year + 1) << ": \n";
                 //Print the changes by displaying the current party population with staunches as well.
@@ -694,26 +723,28 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     }
 
                     //Confirm to continue:
-                    while(!valid){
-                        cout << "Continue? (y/n): ";
-                        cin >> confirm;
+                    if(year < (AMOUNT_SIMULATE - 1)){
+                        while(!valid){
+                            cout << "Continue? (y/n): ";
+                            cin >> confirm;
 
-                        if(cin.fail()){
-                            cin.clear();
-                            cin.ignore(10000, '\n');
-                            cout << "Invalid input. try again.\n";
-                        }
-                        else if(confirm == 'y' || confirm == 'Y'){
-                            valid = true;
-                            cout << "Continuing ... \n";
-                        }
-                        else if (confirm == 'n' || confirm == 'N'){
-                            valid = true;
-                            cout << "Closing program ...\n";
-                            return 0;
-                        }
-                        else{
-                            cout << "Error. Not y or n. Try again.\n";
+                            if(cin.fail()){
+                                cin.clear();
+                                cin.ignore(10000, '\n');
+                                cout << "Invalid input. try again.\n";
+                            }
+                            else if(confirm == 'y' || confirm == 'Y'){
+                                valid = true;
+                                cout << "Continuing ... \n";
+                            }
+                            else if (confirm == 'n' || confirm == 'N'){
+                                valid = true;
+                                cout << "Closing program ...\n";
+                                return 0;
+                            }
+                            else{
+                                cout << "Error. Not y or n. Try again.\n";
+                            }
                         }
                     }
 
