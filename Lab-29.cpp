@@ -159,6 +159,15 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
         cout << "File closed successfully!\n";
     }
 
+    //Explaining the program:
+    cout << "Welcome to Election Simulator!\n";
+    cout << "There will be an initial President will be chosen.\nYou will see what party that president is and what events happened during their term.\n";
+    cout << "Voters have 3 politcal leanings: Right, Left, and Moderate.\n";
+    cout << "Voters may become staunch supporters of their party or become non-voters.";
+    cout << "Note* Staunch means that they are less likely to leave their party, so non-voters are always staunch.\n";
+    cout << "Enjoy the program. You can exit out whenever you would like.\n\n";
+
+
     // Begin a time-based simulation for voting changes:
         //25 time intervals
 
@@ -749,7 +758,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                             else if (confirm == 'n' || confirm == 'N'){
                                 valid = true;
                                 cout << "Closing program ...\n";
-                                return 0;
+                                break;
                             }
                             else{
                                 cout << "Error. Not y or n. Try again.\n";
@@ -759,7 +768,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
                 }
                 
-    cout << "Thank you for this program!";            
+    cout << "Thank you for using this program!";            
     //Clearing the lists of data:
     for(int i = 0; i < 3; i++){ //clearing the Left lists
         itL->second[i].clear();
