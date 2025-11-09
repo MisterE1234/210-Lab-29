@@ -265,8 +265,10 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(vote->get_non_vote()){
                                     lNon--;
                                     iNon++;
+                                    iStaunch++;
+                                    lStaunch--;
                                 }
-                                if(vote->get_staunch()){
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
                                     vote->set_staunch(false); //no longer staunch
                                     lStaunch--;
                                 }
@@ -287,8 +289,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(vote->get_non_vote()){
                                     lNon--;
                                     rNon++;
+
+                                    rStaunch++;
+                                    lStaunch--;
                                 }
-                                if(vote->get_staunch()){
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
                                     vote->set_staunch(false); //no longer staunch
                                     lStaunch--;
                                 }
@@ -308,7 +313,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                             }
                                 if(vote->get_non_vote()){
                                     vote->set_non_vote(false);
-                                    lNon--;    
+                                    lNon--;   
+                                if(vote->get_staunch()){
+                                    vote->set_staunch(false);
+                                    lStaunch--;
+                                } 
                                 }
                                 else{
                                     vote->set_non_vote(true);
@@ -350,7 +359,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                         cout << "Independents Processing the 2nd...\n";
                         }
                         switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
-                            case 0://Chnage to staunch
+                            case 0://Change to staunch
                                 if(debug){
                                     cout << "Becoming staunch\n";
                                 }
@@ -368,8 +377,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(vote->get_non_vote()){
                                     iNon--;
                                     lNon++;
+
+                                    lStaunch++;
+                                    iStaunch--;
                                 }
-                                if(vote->get_staunch()){
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
                                     vote->set_staunch(false); //no longer staunch
                                     iStaunch--;
                                 }
@@ -398,8 +410,10 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(vote->get_non_vote()){
                                     iNon--;
                                     rNon++;
+                                    rStaunch++;
+                                    iStaunch--;
                                 }
-                                if(vote->get_staunch()){
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
                                     vote->set_staunch(false); //no longer staunch
                                     iStaunch--;
                                 }
@@ -420,7 +434,9 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 }
                                 if(vote->get_non_vote()){
                                     vote->set_non_vote(false);
-                                    iNon--;    
+                                    iNon--; 
+                                    vote->set_staunch(false);
+                                    iStaunch--; 
                                 }
                                 else{
                                     vote->set_non_vote(true);
@@ -479,8 +495,10 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(vote->get_non_vote()){
                                     rNon--;
                                     lNon++;
+                                    lStaunch++;
+                                    rStaunch--;
                                 }
-                                if(vote->get_staunch()){
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
                                     vote->set_staunch(false); //no longer staunch
                                     rStaunch--;
                                 }
@@ -503,8 +521,10 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(vote->get_non_vote()){
                                     rNon--;
                                     iNon++;
+                                    iStaunch++;
+                                    rStaunch--;
                                 }
-                                if(vote->get_staunch()){
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
                                     vote->set_staunch(false); //no longer staunch
                                     rStaunch--;
                                 }
@@ -532,6 +552,8 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(vote->get_non_vote()){
                                     vote->set_non_vote(false);
                                     rNon--;    
+                                    vote->set_staunch(false);
+                                    rStaunch--;
                                 }
                                 else{
                                     vote->set_non_vote(true);
