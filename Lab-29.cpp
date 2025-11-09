@@ -61,6 +61,9 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
     int main (){
 
         srand(time(0));
+
+        bool debug = true;
+
         map < string, array <list <Voter>, 3 >> polLandscape;
         int rPop = INITIAL_R;
         int lPop = INITIAL_L;
@@ -85,6 +88,9 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
         bool war = false;
         int economic = 0;
 
+        if(debug){
+        cout << "testing Phrase:\n\n";
+        }
 
     polLandscape["Right"] = {};
     polLandscape["Left"] = {};
@@ -129,9 +135,13 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
     //close file
     iFile.close();
 
+    if(debug){
+        cout << "File closed successfully!\n";
+    }
+
     // Begin a time-based simulation for voting changes:
         //25 time intervals
-        for (int i = 0; i > AMOUNT_SIMULATE, i++;){
+        for (int year = 0; year > AMOUNT_SIMULATE, year++;){
             // run a random numbers for disaster, war, and economic condition.
             for (int e = 1; e >= EVENT_NUM, e++;){
                 event = rand()%100 + 1;
@@ -158,6 +168,10 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 }
 
             }
+
+                if(debug){
+                    cout << "Event chosen successfully!\n";
+                }
                 //Iterate thorugh each map and list.
                 
                 auto itL  = polLandscape.find("Left");
