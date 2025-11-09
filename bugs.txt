@@ -8,3 +8,4 @@ I will make the events effect the voters by iterating through each list and keep
 So something goes wrong before the file is closed. probably reading the file into the different lists. I will test by using debug phrases.
 Okay so somethings wrong with my reading method entirely. it can only add two voter before crashing. I think that because the array is seeing [3] when it can only do [(0-2)]
 13th update: The event choosing is now the problem. it is not happening. It turns out I had the for loop check to see if e is greater than EVENT_NUM. In addition I had a semicolon in the wrong spot. both are now corrected.
+16th update: I am having a problem with my iterating. I have checked an it is not the partyChange() function. I believe this stems form the fact that I am erasing the iterator and then it tries to go to the next spot. I also chnaged the positioning of the removing of the staunch modifer. I need the system to return the next available iterator.

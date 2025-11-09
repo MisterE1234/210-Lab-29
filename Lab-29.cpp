@@ -13,7 +13,7 @@
 #include <array>
 
 using namespace std;
-const bool debug = true;
+const bool debug = false;
 
 const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
 
@@ -260,7 +260,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     lStaunch--;
                                 }
                                 tempVote = *vote;
-                                tempList.erase(vote);
+                                vote = tempList.erase(vote);
                                 itI->second[i].push_back(tempVote);
                             
                                 //changing the population count:
@@ -278,7 +278,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     lStaunch--;
                                 }
                                 tempVote = *vote;
-                                tempList.erase(vote);
+                                vote = tempList.erase(vote);
                                 itR->second[i].push_back(tempVote);
                                 
                                 
@@ -330,14 +330,16 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 }
                                 break;
                             case 1: //change to Left
-                                tempVote = *vote;
-                                tempList.erase(vote);
-                                itL->second[i].push_back(tempVote);
-                                
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     iStaunch--;
                                 }
+                                
+                                tempVote = *vote;
+                                vote = tempList.erase(vote);
+                                itL->second[i].push_back(tempVote);
+                                
+                                
                                 //changing the population count:
 
                                 iPop--;
@@ -347,14 +349,16 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 
                                 break;
                             case 3: //change voter to Right:
-                                tempVote = *vote;
-                                tempList.erase(vote);
-                                itR->second[i].push_back(tempVote);
-                                
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     iStaunch--;
                                 }
+                                
+                                tempVote = *vote;
+                                vote = tempList.erase(vote);
+                                itR->second[i].push_back(tempVote);
+                                
+                                
                                 //changing the population count:
 
                                 iPop--;
@@ -398,28 +402,32 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 }
                                 break;
                             case 1: //change to Left
-                                tempVote = *vote;
-                                tempList.erase(vote);
-                                itL->second[i].push_back(tempVote);
-                                
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     rStaunch--;
                                 }
+                                
+                                tempVote = *vote;
+                                vote = tempList.erase(vote);
+                                itL->second[i].push_back(tempVote);
+                                
+                                
                                 //changing the population count:
 
                                 rPop--;
                                 lPop++;
                                 break;
                             case 2: //Change voter to Independent:
-                                tempVote = *vote;
-                                tempList.erase(vote);
-                                itI->second[i].push_back(tempVote);
-                                
                                 if(vote->get_staunch()){
                                     vote->set_staunch(false); //no longer staunch
                                     rStaunch--;
                                 }
+                                
+                                tempVote = *vote;
+                                vote = tempList.erase(vote);
+                                itI->second[i].push_back(tempVote);
+                                
+                                
                                 //changing the population count:
 
                                 rPop--;
