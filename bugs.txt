@@ -7,4 +7,4 @@ I will make the events effect the voters by iterating through each list and keep
 11th update: I noticed that in the big for loop I use i twice for two different for one of for loops inside the other. I will change the first one as it does not matter as much.
 So something goes wrong before the file is closed. probably reading the file into the different lists. I will test by using debug phrases.
 Okay so somethings wrong with my reading method entirely. it can only add two voter before crashing. I think that because the array is seeing [3] when it can only do [(0-2)]
-13th update: The event choosing is now the problem. it is not happening. It turns out I had the for loop check to see if e is greater than EVENT_NUM.
+13th update: The event choosing is now the problem. it is not happening. It turns out I had the for loop check to see if e is greater than EVENT_NUM. In addition I had a semicolon in the wrong spot. both are now corrected.

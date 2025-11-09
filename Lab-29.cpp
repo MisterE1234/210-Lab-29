@@ -13,6 +13,7 @@
 #include <array>
 
 using namespace std;
+const bool debug = true;
 
 const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 40, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
 
@@ -61,8 +62,6 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
     int main (){
 
         srand(time(0));
-
-        bool debug = true;
 
         map < string, array <list <Voter>, 3 >> polLandscape;
         int rPop = INITIAL_R;
@@ -157,6 +156,19 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
     // Begin a time-based simulation for voting changes:
         //25 time intervals
+
+        if(presidentParty == 1){
+            cout << "The president is Left\n";
+
+        }
+        else if(presidentParty == 2){
+            cout << "The president is Independent\n";
+        }
+        else if(presidentParty == 3){
+            cout << "The president is Right\n";
+        }
+
+
         for (int year = 0; year < AMOUNT_SIMULATE; year++){
             if(debug){
                 cout << "Sim " << year << endl;
@@ -165,7 +177,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
             economic = 0;
 
             
-            for (int e = 0; e < EVENT_NUM, e++;){
+            for (int e = 0; e < EVENT_NUM; e++){
                 event = rand()%100 + 1;
 
                 switch(e){
@@ -212,6 +224,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 //going through the Left party first:
                 voterParty = 1;
                 for(int i = 0; i < 3; i++){
+                    
+                    if(debug) {
+                        cout << "starting to get voter reaction\n";
+                    }
+
                     list <Voter>& tempList = itL->second[i];
                     
                     for(auto vote = tempList.begin(); vote !=tempList.end();){
@@ -272,6 +289,10 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
                     }
 
+                }
+
+                if(debug){
+                    cout << "Sarting on Indepenents:\n";
                 }
 
                 //going through the Independent party next:
@@ -336,6 +357,10 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
                     }
 
+                }
+
+                if(debug){
+                    cout << "starting on Rights:";
                 }
 
                 //going through the Right party next:
@@ -559,7 +584,12 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
     if(v.get_staunch()){
             staunch = 20;
         }
+        
+    if(debug){
+            cout << "In partyChange()\n";
+        }
     switch(party){
+
         case (1) : // The voter is a part of the left party:
 
         
@@ -1236,7 +1266,9 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
         
     }
 
-
+if(debug){
+    cout << "At the end of partyChange():\n";
+}
     while(true){
         prob = (rand()%100) + change;
         if(prob < 5){ // become staunch (0)
