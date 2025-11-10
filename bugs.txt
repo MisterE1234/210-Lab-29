@@ -1,0 +1,31 @@
+Bugs: I did not complete the alpha like I wanted so I have to make that work first.
+I will make the events effect the voters by iterating through each list and keep track of the new sizes of each map.
+3rd update: tempList cannot erase as it is in a range-based loop. I need a iterator based loop. oops.
+5th update: I noticed that the staunch population trackers would always increase when partyChange was zero even if the voter was already staunch. fixed it with a if statement.
+6th Update: I have made the display for the parties. However I suspect that they might be a bit skewed as a single vote from hihger up in the code could go through the event again in parties below it. I am not sure what to do about yet. maybe make a copy map? I'll deal with it later, but I am making a note of it.
+10th update: There is a path in partyChange() that might not return an integer. I will apply a while loop to validate that the int is returned.
+11th update: I noticed that in the big for loop I use i twice for two different for one of for loops inside the other. I will change the first one as it does not matter as much.
+So something goes wrong before the file is closed. probably reading the file into the different lists. I will test by using debug phrases.
+Okay so somethings wrong with my reading method entirely. it can only add two voter before crashing. I think that because the array is seeing [3] when it can only do [(0-2)]
+13th update: The event choosing is now the problem. it is not happening. It turns out I had the for loop check to see if e is greater than EVENT_NUM. In addition I had a semicolon in the wrong spot. both are now corrected.
+16th update: I am having a problem with my iterating. I have checked an it is not the partyChange() function. I believe this stems form the fact that I am erasing the iterator and then it tries to go to the next spot. I also chnaged the positioning of the removing of the staunch modifer. I need the system to return the next available iterator.
+18th update: I notice that the independents and right processing is being skipped. I have tested and I can see that the problem is the iterator is being skipped.
+okay simple fix. I created the Left processing first and when I was done with taht I coppied it for the Independent and Right parties, but failed to update which map I was using.
+19th update: I realised that never had the nonPop variable update when a non-voter leaves a party. I will change that.
+
+The probability of changing parties is too high, so I will decrease it and increase the likelyhood of staying in their current party.
+me changing the probability, casued the for iterator loop to hang. It is because the iterator is never advancing. I just need to advance the iterator when someone stays, becomes staunch, or becomes non-voting.
+
+I noticed that a voter could be both staunch and non-voting, but occasionally only non-voting. The non-voters should be naturally staunch as they have given up voting so do not feel the need to switch parties.
+
+okay I will now address the whole processing problem. It is far more likely that the left gains voters right now as its voter are processed twice and sometimes even thrice. I will make two new maps that will hold the voter being transfered to the Independent party and Right party until the processing for reach loop is over.
+
+The lists need to be cleared at the of the program. also the confirmation to continue should not happen on the final loop. I will set an if variable to check if it is the final loop. 
+
+I am going to put the initial party line at the begining as it is a little odd that the user cannot see how the simulation starts out.
+
+The Left party is too prone to go non-voting and the Right party rarely goes below 30 members which is not how should be. I need to tweak some values.
+
+I tested the program with my family and they had good feedback: I need to explain staunch and non-voting. Something I noticed is that the Left tends to have a rough start but then come back to around 52 members.
+
+All the if statements for economy events in partyChange() had only one = as opposed to ==.
