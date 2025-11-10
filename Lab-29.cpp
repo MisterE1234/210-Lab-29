@@ -62,22 +62,23 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
     int main (){
 
         srand(time(0));
-
+        //declaring map to keep track of parties:
         map < string, array <list <Voter>, 3 >> polLandscape;
+        //variables to keep track of how many voter are in each party:
         int rPop = INITIAL_R;
         int lPop = INITIAL_L;
         int iPop = INITIAL_I;
-
+        //variables to keep track of how many staunch voter are in each party:
         int rStaunch = 0;
         int lStaunch = 0;
         int iStaunch = 0;
-
+        //variables to keep track of how many non-voter are in each party:
         int rNon = 0;
         int lNon = 0;
         int iNon = 0;
 
         int presidentParty = rand()%3 + 1; //The presidents party alignment will randomly be either Left(1), Independent(2), Right(3).
-        int voterParty;
+        int voterParty; // a variable to keep track of the voters party.
 
         int temp;
         int event;
@@ -115,6 +116,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
     
     
     //Read data to lists: split three ways 40% R: 40% L: 20% I.
+    //Filling the Right Party with voters:
     auto it  = polLandscape.find("Right");
         // for each line extract a party affilation to make a voter.
     for(int i = 0; i < INITIAL_R; i++){
@@ -129,7 +131,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
     if(debug){
         cout << "Right party has voters!\n";
     }
-
+    //Filling up the Left party with voters:
     it  = polLandscape.find("Left");
         // for each line extract a party affilation to make a voter.
     for(int i = 0; i < INITIAL_L; i++){
@@ -140,7 +142,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
     if(debug){
         cout << "Left party has voters!\n";
     }
-
+    //filling up the Independent Party with voters:
     it  = polLandscape.find("Independent");
         // for each line extract a party affilation to make a voter.
     for(int i = 0; i < INITIAL_I; i++){
@@ -197,7 +199,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
         auto itTempI = polLandscape.find("tempI");
         auto itTempR = polLandscape.find("tempR");
 
-
+        //starting the simulation:
         for (int year = 0; year < AMOUNT_SIMULATE; year++){
             if(debug){
                 cout << "Sim " << year << endl;
@@ -205,29 +207,29 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
             // run a random numbers for disaster, war, and economic condition.
             economic = 0;
 
-            
+            //using a for loop to progress through the events:
             for (int e = 0; e < EVENT_NUM; e++){
                 event = rand()%100 + 1;
-
+                //getting the events and going through them one at a time
                 switch(e){
                     case 0:
-                    if (event <= PROB_DISASTER){
+                    if (event <= PROB_DISASTER){ //seeing if the Disaster event happens
                         disaster = true;
                         cout << "A disaster has happened...\n";
                     }
                     break;
                     case 1:
-                    if (event <= PROB_WAR){
+                    if (event <= PROB_WAR){ //seeing if the War event happens
                         war = true;
                         cout << "A war has broken out...\n";
                     }
                     break;
                     case 2:
-                    if (event <= PROB_ECONOMY){
+                    if (event <= PROB_ECONOMY){//seeing if the Econ. Boom event happens
                         economic = 1;
                         cout << "An Economic Boom!\n";
                     }
-                    else if(event >= 100 - PROB_ECONOMY){
+                    else if(event >= 100 - PROB_ECONOMY){ //seeing if the Econ. Downturn event happens
                         economic = 2;
                         cout << "An economic downturn...\n";
                     }
@@ -269,7 +271,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
 
                         switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
-                            case 0://Change to staunch
+                            case 0://set to staunch
                             if(debug){
                                 cout << "Becoming staunch\n";
                             }
@@ -280,9 +282,9 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 vote++;
                                 break;
                             case 1:
-                            if(debug){
-                                cout << "Staying in Left\n";
-                            }
+                                if(debug){
+                                    cout << "Staying in Left\n";
+                                }
                             vote++;
                                 break;
                             case 2: //Change voter to Independent:
@@ -290,7 +292,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(debug){
                                     cout << "switching to Independent\n";
                                 }
-                                if(vote->get_non_vote()){
+                                if(vote->get_non_vote()){//if non-voter:
                                     lNon--;
                                     iNon++;
                                     iStaunch++;
@@ -300,7 +302,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     vote->set_staunch(false); //no longer staunch
                                     lStaunch--;
                                 }
-                                tempVote = *vote;
+                                tempVote = *vote;//using a temporary Voter to the Voter value for transfer before removing it.
                                 vote = tempList.erase(vote);
                                 itTempI->second[i].push_back(tempVote);
                             
@@ -314,7 +316,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     cout << "switching to Right\n";
                                 }
 
-                                if(vote->get_non_vote()){
+                                if(vote->get_non_vote()){//if a non-voter:
                                     lNon--;
                                     rNon++;
 
@@ -325,7 +327,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     vote->set_staunch(false); //no longer staunch
                                     lStaunch--;
                                 }
-                                tempVote = *vote;
+                                tempVote = *vote;//using a temporary Voter to the Voter value for transfer before removing it.
                                 vote = tempList.erase(vote);
                                 itTempR->second[i].push_back(tempVote);
                                 
@@ -339,15 +341,14 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                             if(debug){
                                 cout << "Becoming a non-voter\n";
                             }
-                                if(vote->get_non_vote()){
+                                if(vote->get_non_vote()){//if already a non-voter
                                     vote->set_non_vote(false);
-                                    lNon--;   
-                                if(vote->get_staunch()){
+                                    lNon--;
                                     vote->set_staunch(false);
                                     lStaunch--;
-                                } 
                                 }
-                                else{
+                                
+                                else{ //if not:
                                     vote->set_non_vote(true);
                                     lNon++;
 
@@ -387,11 +388,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                         cout << "Independents Processing the 2nd...\n";
                         }
                         switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
-                            case 0://Change to staunch
+                            case 0://set to staunch
                                 if(debug){
                                     cout << "Becoming staunch\n";
                                 }
-                                if(!vote->get_staunch()){
+                                if(!vote->get_staunch()){ //if not staunch
                                 vote->set_staunch(true);
                                 iStaunch++;
                                 }
@@ -402,7 +403,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     cout << "Becoming Left\n";
                                 }
 
-                                if(vote->get_non_vote()){
+                                if(vote->get_non_vote()){//if non-voter:
                                     iNon--;
                                     lNon++;
 
@@ -414,7 +415,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     iStaunch--;
                                 }
                                 
-                                tempVote = *vote;
+                                tempVote = *vote;//using a temporary Voter to the Voter value for transfer before removing it.
                                 vote = tempList.erase(vote);
                                 itL->second[i].push_back(tempVote);
                                 
@@ -435,7 +436,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     cout << "Becoming Right\n";
                                 }
 
-                                if(vote->get_non_vote()){
+                                if(vote->get_non_vote()){//if non-voter:
                                     iNon--;
                                     rNon++;
                                     rStaunch++;
@@ -446,7 +447,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     iStaunch--;
                                 }
                                 
-                                tempVote = *vote;
+                                tempVote = *vote;//using a temporary Voter to the Voter value for transfer before removing it.
                                 vote = tempList.erase(vote);
                                 itTempR->second[i].push_back(tempVote);
                                 
@@ -456,17 +457,17 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 iPop--;
                                 rPop++;
                                 break;
-                            case 4: //change voter to non-Voter:
+                            case 4: //change voter's non-Voter tag:
                                 if(debug){
                                     cout << "Becoming non-Voter\n";
                                 }
-                                if(vote->get_non_vote()){
+                                if(vote->get_non_vote()){ //if already a non-voter, make them a voter
                                     vote->set_non_vote(false);
                                     iNon--; 
                                     vote->set_staunch(false);
                                     iStaunch--; 
                                 }
-                                else{
+                                else{// if not:
                                     vote->set_non_vote(true);
                                     if(!vote->get_staunch()){
                                         vote->set_staunch(true);
@@ -474,7 +475,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     }
                                     iNon++;
                                 }
-                                vote++;
+                                vote++;//moving up the iterator
                                 break;
                             default:
                                 cout << "Error!. PartyChange not 0-4.\n";
@@ -519,7 +520,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                             cout << "Right Processing the 2nd...\n";
                         }
                         switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
-                            case 0://Chnage to staunch
+                            case 0://Change to staunch
                                 if(debug){
                                     cout << "Becoming staunch\n";
                                 }
@@ -534,7 +535,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     cout << "Becoming Left\n";
                                 }
 
-                                if(vote->get_non_vote()){
+                                if(vote->get_non_vote()){//if non-voter
                                     rNon--;
                                     lNon++;
                                     lStaunch++;
@@ -545,7 +546,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     rStaunch--;
                                 }
                                 
-                                tempVote = *vote;
+                                tempVote = *vote;//using a temporary Voter to the Voter value for transfer before removing it.
                                 vote = tempList.erase(vote);
                                 itL->second[i].push_back(tempVote);
                                 
@@ -560,7 +561,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     cout << "Becoming Independent\n";
                                 }
 
-                                if(vote->get_non_vote()){
+                                if(vote->get_non_vote()){ //if the user is a non-voter:
                                     rNon--;
                                     iNon++;
                                     iStaunch++;
