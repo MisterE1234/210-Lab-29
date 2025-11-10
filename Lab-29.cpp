@@ -1,40 +1,1543 @@
-//COMSC-210|Ethan Aylard|Lab-29
+//COMSC-210|Ethan Aylard|Lab-31
 //IDE used: Visual Studio Code
 
 //Include necessary headers for files, data structures, processing, and ect.
 
+#include <iostream>
+#include <fstream>
+#include <list>
+#include <map>
+#include <algorithm>
+#include <numeric>
+#include <iomanip>
+#include <array>
+
+using namespace std;
+const bool debug = false;
+
+const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 20, PROB_DISASTER = 40, PROB_WAR = 20, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
+
 //Define a class named Voter:
-    //would hold a int party variable with three options (1-3). To represent left, moderate, right.
+    //would hold a int political leaning variable with three options (1-3). To represent left, moderate, right.
     //an bool variable to see if the voter is staunch or not.
     //a partial constructor to have a custom party affiliation with staunch set false by default.
 
+    class Voter {
+        //Private variables for politcal leaning and if the voter is staunch or not.
+        private:
+            int leaning;
+            bool staunch;
+            bool non_vote;
+
+        // public functions:
+        public:
+        //Constructors:
+        Voter() {leaning = 0; staunch = false; non_vote = false;};
+        Voter(int l) {leaning = l; staunch = false; non_vote = false;}
+
+        //Setters:
+        void set_leaning (int l) {leaning = l;};
+        void set_staunch (bool s) {staunch = s;};
+        void set_non_vote (bool n) {non_vote = n;};
+
+        //getters:
+        int get_leaning () const {return leaning;};
+        bool get_staunch () const {return staunch;};
+        bool get_non_vote () const {return non_vote;};
+
+    };
+
+
 //Define a function that would simulate what event[s] would have happend for this voting period and how they affect different voters using a probabilty matrix.
-    //Parameters: a voter, and 3 random int variables
+    //Parameters: a voter, 2 bools for the disaster and war events, and int variable for the economic events ,  an int to hold the presidents party, and an int hold the voters party.
     //returns: an integer indicating which party they are a part of now and and if they are staunch.
 
+    int partyChange(Voter, bool, bool, int, int, int);
+
 //Define main function:
+    //
     //Initialize a map to store party information, each associated with its different kinds of voters.
-    //declare int variables named rPop, lPop, iPop, nonPop, and rStaunch, lStaunch, iStaunch, and nonStaunch.
+    //declare int variables to hold the population in each party and how many are staunch or non-voters. Also a int variable that hold who is in charge:
     
+    int main (){
+
+        srand(time(0));
+        //declaring map to keep track of parties:
+        map < string, array <list <Voter>, 3 >> polLandscape;
+        //variables to keep track of how many voter are in each party:
+        int rPop = INITIAL_R;
+        int lPop = INITIAL_L;
+        int iPop = INITIAL_I;
+        //variables to keep track of how many staunch voter are in each party:
+        int rStaunch = 0;
+        int lStaunch = 0;
+        int iStaunch = 0;
+        //variables to keep track of how many non-voter are in each party:
+        int rNon = 0;
+        int lNon = 0;
+        int iNon = 0;
+
+        int presidentParty = rand()%3 + 1; //The presidents party alignment will randomly be either Left(1), Independent(2), Right(3).
+        int voterParty; // a variable to keep track of the voters party.
+
+        int temp;
+        int event;
+
+        char confirm;
+        bool disaster = false;
+        bool war = false;
+        int economic = 0;
+
+        if(debug){
+        cout << "testing Phrase:\n\n";
+        }
+
+    //declaring the parties with their maps:
+    polLandscape["Right"] = {};
+    polLandscape["Left"] = {};
+    polLandscape["Independent"] = {};
+
+    //declaring the temporary maps to hold transfered voter during processing.
+    polLandscape["tempI"] = {};
+    polLandscape["tempR"] = {};
     //Open a external file to read integer to the list to become voters.
         //if it does not open, print an error message and return -1.
+
+    ifstream iFile; //input file stream object
+    iFile.open("voters.txt"); //open the input file
+
+    //check if the file opened successfully
+    if (!iFile)
+    {
+        cout << "Error opening file!" << endl;
+        return 1;
+    }
+
     
-    //Read data to lists: split three ways 30% R: 30% L: 40% I.
+    
+    //Read data to lists: split three ways 40% R: 40% L: 20% I.
+    //Filling the Right Party with voters:
+    auto it  = polLandscape.find("Right");
         // for each line extract a party affilation to make a voter.
+    for(int i = 0; i < INITIAL_R; i++){
+        iFile >> temp;
+        it->second[temp - 1].push_back(Voter(temp));  
+
+        if(debug){
+            cout << "New party member!\n";
+        }
+    }
+
+    if(debug){
+        cout << "Right party has voters!\n";
+    }
+    //Filling up the Left party with voters:
+    it  = polLandscape.find("Left");
+        // for each line extract a party affilation to make a voter.
+    for(int i = 0; i < INITIAL_L; i++){
+        iFile >> temp;
+        it->second[temp - 1].push_back(Voter(temp));  
+    }
+
+    if(debug){
+        cout << "Left party has voters!\n";
+    }
+    //filling up the Independent Party with voters:
+    it  = polLandscape.find("Independent");
+        // for each line extract a party affilation to make a voter.
+    for(int i = 0; i < INITIAL_I; i++){
+        iFile >> temp;
+        it->second[temp - 1].push_back(Voter(temp));  
+    }
+
+    if(debug){
+        cout << "Independent party has voters!\n";
+    }
 
     //close file
+    iFile.close();
+
+    if(debug){
+        cout << "File closed successfully!\n";
+    }
+
+    //Explaining the program:
+    cout << "Welcome to Election Simulator!\n";
+    cout << "There will be an initial President will be chosen.\nYou will see what party that president is a part of\nand what events happened during their term.\n";
+    cout << "Voters have 3 politcal leanings: Right, Left, and Moderate.\n";
+    cout << "Voters may become staunch supporters of their party or become non-voters.\n";
+    cout << "Staunch means that they are less likely to leave their party,\nso non-voters are always staunch.\n";
+    cout << "Enjoy the program. There are 25 cycles. You can exit out whenever you would like.\n\n";
+
 
     // Begin a time-based simulation for voting changes:
         //25 time intervals
+
+        if(presidentParty == 1){
+            cout << "The president is Left\n";
+
+        }
+        else if(presidentParty == 2){
+            cout << "The president is Independent\n";
+        }
+        else if(presidentParty == 3){
+            cout << "The president is Right\n";
+        }
+
+        //Displaying the initial Party compilation:
+        cout << "Left Party Population: " << lPop << ", Staunch: " << lStaunch << ", Non-voters: " << lNon << endl;
+        cout << "Independent Party Population: " << iPop << ", Staunch: " << iStaunch << ", Non-voters: " << iNon << endl;
+        cout << "Right Party Population: " << rPop << ", Staunch: " << rStaunch << ", Non-voters: " << rNon << endl << endl;
+        
+        //declaring the iterator going to be used to keep track of the maps and their lists.
+        auto itL  = polLandscape.find("Left");
+        auto itI = polLandscape.find("Independent");
+        auto itR = polLandscape.find("Right");
+
+        //declaring the temporary Voter and iterators:
+        Voter tempVote;
+        auto itTempI = polLandscape.find("tempI");
+        auto itTempR = polLandscape.find("tempR");
+
+        //starting the simulation:
+        for (int year = 0; year < AMOUNT_SIMULATE; year++){
+            if(debug){
+                cout << "Sim " << year << endl;
+            }
             // run a random numbers for disaster, war, and economic condition.
-                // Iterate through each voting division
-                    // for each voter see if they are going to change party, stay, or become staunch
+            economic = 0;
+
+            //using a for loop to progress through the events:
+            for (int e = 0; e < EVENT_NUM; e++){
+                event = rand()%100 + 1;
+                //getting the events and going through them one at a time
+                switch(e){
+                    case 0:
+                    if (event <= PROB_DISASTER){ //seeing if the Disaster event happens
+                        disaster = true;
+                        cout << "A disaster has happened...\n";
+                    }
+                    break;
+                    case 1:
+                    if (event <= PROB_WAR){ //seeing if the War event happens
+                        war = true;
+                        cout << "A war has broken out...\n";
+                    }
+                    break;
+                    case 2:
+                    if (event <= PROB_ECONOMY){//seeing if the Econ. Boom event happens
+                        economic = 1;
+                        cout << "An Economic Boom!\n";
+                    }
+                    else if(event >= 100 - PROB_ECONOMY){ //seeing if the Econ. Downturn event happens
+                        economic = 2;
+                        cout << "An economic downturn...\n";
+                    }
+                    break;
+                    default:
+                    cout << "Error. wrong number of events.\n";
+
+                }
+
+            }
+
+                if(debug){
+                    cout << "Event chosen successfully!\n";
+                }
+                //Iterate thorugh each map and list.
+                
+                
+
+
+
+                // for each voter see if they are going to change party, stay, or become staunch
                         //if they become stauch it makes it harder for them to switch parties, same if they switch to non-voter.
                         // If they become staunch update their bool variable, if tehy were staunch and left their party set their stauch to false.
                         //If they are changing parties, save voter data to a temporary Voter and delete the original and then place the Voter in their new party.
                         //use the int variables to keep track of how many are in a division and how many are staunch.
-
-                    //Print the changes by displaying the current party population with staunches as well.
-                        //Pause after each display and wait for the user to confirm to continue.
+                
+                //going through the Left party first:
+                voterParty = 1;
+                for(int i = 0; i < 3; i++){ // once for each list in the array
                     
+                    if(debug) {
+                        cout << "starting to get voter reaction\n";
+                    }
+
+                    list <Voter>& tempList = itL->second[i];
+                    
+                    for(auto vote = tempList.begin(); vote !=tempList.end();){
+                        
+
+
+                        switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
+                            case 0://set to staunch
+                            if(debug){
+                                cout << "Becoming staunch\n";
+                            }
+                                if(!vote->get_staunch()){
+                                vote->set_staunch(true);
+                                lStaunch++;
+                                }
+                                vote++;
+                                break;
+                            case 1:
+                                if(debug){
+                                    cout << "Staying in Left\n";
+                                }
+                            vote++;
+                                break;
+                            case 2: //Change voter to Independent:
+
+                                if(debug){
+                                    cout << "switching to Independent\n";
+                                }
+                                if(vote->get_non_vote()){//if non-voter:
+                                    lNon--;
+                                    iNon++;
+                                    iStaunch++;
+                                    lStaunch--;
+                                }
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
+                                    vote->set_staunch(false); //no longer staunch
+                                    lStaunch--;
+                                }
+                                tempVote = *vote;//using a temporary Voter to the Voter value for transfer before removing it.
+                                vote = tempList.erase(vote);
+                                itTempI->second[i].push_back(tempVote);
+                            
+                                //changing the population count:
+
+                                lPop--;
+                                iPop++;
+                                break;
+                            case 3: //change voter to Right:
+                                if(debug){
+                                    cout << "switching to Right\n";
+                                }
+
+                                if(vote->get_non_vote()){//if a non-voter:
+                                    lNon--;
+                                    rNon++;
+
+                                    rStaunch++;
+                                    lStaunch--;
+                                }
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
+                                    vote->set_staunch(false); //no longer staunch
+                                    lStaunch--;
+                                }
+                                tempVote = *vote;//using a temporary Voter to the Voter value for transfer before removing it.
+                                vote = tempList.erase(vote);
+                                itTempR->second[i].push_back(tempVote);
+                                
+                                
+                                //changing the population count:
+
+                                lPop--;
+                                rPop++;
+                                break;
+                            case 4: //change voter to non-Voter:
+                            if(debug){
+                                cout << "Becoming a non-voter\n";
+                            }
+                                if(vote->get_non_vote()){//if already a non-voter
+                                    vote->set_non_vote(false);
+                                    lNon--;
+                                    vote->set_staunch(false);
+                                    lStaunch--;
+                                }
+                                
+                                else{ //if not:
+                                    vote->set_non_vote(true);
+                                    lNon++;
+
+                                    if(!vote->get_staunch()){
+                                        vote->set_staunch(true);
+                                        lStaunch++;
+                                    }
+                                }
+                                vote++;
+                                break;
+                            default:
+                                cout << "Error!. PartyChange not 0-4.\n";
+                                return -1;
+                            
+                        }
+                        if(debug){
+                            cout << "at the end of Left loop\n";
+                        }
+                    }
+
+                }
+
+                if(debug){
+                    cout << "Sarting on Indepenents:\n";
+                }
+
+                //going through the Independent party next:
+                voterParty = 2;
+                for(int i = 0; i < 3; i++){
+                    list <Voter>& tempList = itI->second[i];
+                    if(debug){
+                        cout << "Independents Processing...\n";
+                    }
+                    
+                    for(auto vote = tempList.begin(); vote !=tempList.end();){
+                        if(debug){
+                        cout << "Independents Processing the 2nd...\n";
+                        }
+                        switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
+                            case 0://set to staunch
+                                if(debug){
+                                    cout << "Becoming staunch\n";
+                                }
+                                if(!vote->get_staunch()){ //if not staunch
+                                vote->set_staunch(true);
+                                iStaunch++;
+                                }
+                                vote++;
+                                break;
+                            case 1: //change to Left
+                                if(debug){
+                                    cout << "Becoming Left\n";
+                                }
+
+                                if(vote->get_non_vote()){//if non-voter:
+                                    iNon--;
+                                    lNon++;
+
+                                    lStaunch++;
+                                    iStaunch--;
+                                }
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
+                                    vote->set_staunch(false); //no longer staunch
+                                    iStaunch--;
+                                }
+                                
+                                tempVote = *vote;//using a temporary Voter to the Voter value for transfer before removing it.
+                                vote = tempList.erase(vote);
+                                itL->second[i].push_back(tempVote);
+                                
+                                
+                                //changing the population count:
+
+                                iPop--;
+                                lPop++;
+                                break;
+                            case 2: //Change voter to Independent:
+                                if(debug){
+                                    cout << "staying Independent\n";
+                                }
+                                vote++;
+                                break;
+                            case 3: //change voter to Right:
+                                if(debug){
+                                    cout << "Becoming Right\n";
+                                }
+
+                                if(vote->get_non_vote()){//if non-voter:
+                                    iNon--;
+                                    rNon++;
+                                    rStaunch++;
+                                    iStaunch--;
+                                }
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
+                                    vote->set_staunch(false); //no longer staunch
+                                    iStaunch--;
+                                }
+                                
+                                tempVote = *vote;//using a temporary Voter to the Voter value for transfer before removing it.
+                                vote = tempList.erase(vote);
+                                itTempR->second[i].push_back(tempVote);
+                                
+                                
+                                //changing the population count:
+
+                                iPop--;
+                                rPop++;
+                                break;
+                            case 4: //change voter's non-Voter tag:
+                                if(debug){
+                                    cout << "Becoming non-Voter\n";
+                                }
+                                if(vote->get_non_vote()){ //if already a non-voter, make them a voter
+                                    vote->set_non_vote(false);
+                                    iNon--; 
+                                    vote->set_staunch(false);
+                                    iStaunch--; 
+                                }
+                                else{// if not:
+                                    vote->set_non_vote(true);
+                                    if(!vote->get_staunch()){
+                                        vote->set_staunch(true);
+                                        iStaunch++;
+                                    }
+                                    iNon++;
+                                }
+                                vote++;//moving up the iterator
+                                break;
+                            default:
+                                cout << "Error!. PartyChange not 0-4.\n";
+                                return -1;
+                            
+                        }
+
+                    }
+
+                }
+                //transfering the voters from Left that switched over:
+                for(int i = 0; i < 3; i++){
+                    list <Voter>& tempList = itTempI->second[i];
+                    if(debug){
+                        cout << "Independents Processing...\n";
+                    }
+                    
+                    for(auto vote = tempList.begin(); vote !=tempList.end();){
+                        tempVote = *vote;
+                        vote = tempList.erase(vote);
+                        itI->second[i].push_back(tempVote);
+
+                    }
+                }
+
+                if(debug){
+                    cout << "starting on Rights:\n";
+                }
+
+                //going through the Right party next:
+                voterParty = 3;
+                for(int i = 0; i < 3; i++){
+                    list <Voter>& tempList = itR->second[i];
+
+                    if(debug){
+                        cout << "Right Processing...\n";
+                    }
+                    
+                    for(auto vote = tempList.begin(); vote !=tempList.end();){
+
+                        if(debug){
+                            cout << "Right Processing the 2nd...\n";
+                        }
+                        switch (partyChange(*vote , disaster , war , economic , presidentParty , voterParty)){
+                            case 0://Change to staunch
+                                if(debug){
+                                    cout << "Becoming staunch\n";
+                                }
+                                if(!vote->get_staunch()){
+                                vote->set_staunch(true);
+                                rStaunch++;
+                                }
+                                vote++;
+                                break;
+                            case 1: //change to Left
+                                if(debug){
+                                    cout << "Becoming Left\n";
+                                }
+
+                                if(vote->get_non_vote()){//if non-voter
+                                    rNon--;
+                                    lNon++;
+                                    lStaunch++;
+                                    rStaunch--;
+                                }
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
+                                    vote->set_staunch(false); //no longer staunch
+                                    rStaunch--;
+                                }
+                                
+                                tempVote = *vote;//using a temporary Voter to the Voter value for transfer before removing it.
+                                vote = tempList.erase(vote);
+                                itL->second[i].push_back(tempVote);
+                                
+                                
+                                //changing the population count:
+
+                                rPop--;
+                                lPop++;
+                                break;
+                            case 2: //Change voter to Independent:
+                                if(debug){
+                                    cout << "Becoming Independent\n";
+                                }
+
+                                if(vote->get_non_vote()){ //if the user is a non-voter:
+                                    rNon--;
+                                    iNon++;
+                                    iStaunch++;
+                                    rStaunch--;
+                                }
+                                else if(vote->get_staunch()){ //if the voter is staunch and is not a non-voter:
+                                    vote->set_staunch(false); //no longer staunch
+                                    rStaunch--;
+                                }
+                                //using a temporary Voter to the Voter value for transfer before removing it.
+                                tempVote = *vote;
+                                vote = tempList.erase(vote);
+                                itI->second[i].push_back(tempVote);
+                                
+                                
+                                //changing the population count:
+
+                                rPop--;
+                                iPop++;
+                                break;
+                            case 3: //change voter to Right:
+                                if(debug){
+                                    cout << "Staying Right\n";
+                                }
+                                vote++;
+                                break;
+                            case 4: //change voter to non-Voter:
+                                if(debug){
+                                    cout << "Becoming non-Voter\n";
+                                }
+                                if(vote->get_non_vote()){ //if the voter is already a non-voter:
+                                    vote->set_non_vote(false);
+                                    rNon--;    
+                                    vote->set_staunch(false);
+                                    rStaunch--;
+                                }
+                                else{//If not:
+                                    vote->set_non_vote(true);
+                                    if(!vote->get_staunch()){
+                                        vote->set_staunch(true);
+                                        rStaunch++;
+                                    }
+                                    rNon++;
+                                }
+                                vote++;
+                                break;
+                            default:
+                                cout << "Error!. PartyChange not 0-4.\n";
+                                return -1;
+                            
+                        }
+
+                    }
+
+                }
+
+                //Transfering the voters that switched to the Right party:
+                for(int i = 0; i < 3; i++){
+                    list <Voter>& tempList = itTempR->second[i];
+                    if(debug){
+                        cout << "Independents Processing...\n";
+                    }
+                    //iterating through the list:
+                    for(auto vote = tempList.begin(); vote !=tempList.end();){
+                        tempVote = *vote;
+                        vote = tempList.erase(vote);
+                        itR->second[i].push_back(tempVote);
+
+                    }
+                }
+
+                //Now to display the results:
+                cout << "Voting year " << (year + 1) << ": \n";
+                //Print the changes by displaying the current party population with staunches as well.
+                        //Pause after each display and wait for the user to confirm to continue.
+                cout << "Left Party Population: " << lPop << ", Staunch: " << lStaunch << ", Non-voters: " << lNon << endl;
+                cout << "Independent Party Population: " << iPop << ", Staunch: " << iStaunch << ", Non-voters: " << iNon << endl;
+                cout << "Right Party Population: " << rPop << ", Staunch: " << rStaunch << ", Non-voters: " << rNon << endl;
+                
+                //deciding who is in charge next:
+                int lVote = lPop - lNon;
+                int iVote = iPop - iNon;
+                int rVote = rPop - rNon;
+                bool valid = false;
+
+                if(lVote > iVote){ //if Left has more people than Independents:
+                    if(lVote > rVote){ //if Left has more people than Right:
+                        presidentParty = 1;
+                        cout << "The new President is Left!\n";
+                    }
+
+                    else if (lVote < rVote){ // if Left has less people than Right:
+                        presidentParty = 3;
+                        cout << "The new President is Right!\n";
+                    }
+
+                    else{ //if Left and Right are tied
+                        while(!valid){
+                            presidentParty = rand()%3 + 1; //coin flip
+                            if(presidentParty == 1){
+                                cout << "The new President is Left!\n";
+                                valid = true;
+                            }
+
+                            else if(presidentParty == 3){
+                                cout << "The new President is Right!\n";
+                                valid = true;
+
+                            }
+
+                        }
+                        valid = false; //resetting for reuse
+                    }
+
+                }
+
+                    else if(lVote < iVote){ // if Left has less people than Indpendent:
+                        if(iVote > rVote){ //if Independent has more people than Right:
+                            presidentParty = 2;
+                            cout << "The new President is Independent!\n";
+                        }
+
+                        else if (iVote < rVote){ // if Independent has less people than Right:
+                            presidentParty = 3;
+                            cout << "The new President is Right!\n";
+                        }
+
+                        else{ //if Independent and Right are tied
+                            while(!valid){
+                                presidentParty = rand()%3 + 1; //coin flip
+                                if(presidentParty == 2){
+                                    cout << "The new President is Independent!\n";
+                                    valid = true;
+                                }
+
+                                else if(presidentParty == 3){
+                                    cout << "The new President is Right!\n";
+                                    valid = true;
+
+                                }
+
+                            }
+                        valid = false;
+                        }
+                    }
+                    else{//If Left and Independent are tied:
+                        
+
+                        if (lVote < rVote){ // if Left has less people than Right:
+                            presidentParty = 3;
+                            cout << "The new President is Right!\n";
+                        }
+
+                        else{ //if Left and Right are tied
+                            while(!valid){
+                                presidentParty = rand()%3 + 1; //coin flip
+                                if(presidentParty == 1){
+                                    cout << "The new President is Left!\n";
+                                    valid = true;
+                                }
+
+                                else if(presidentParty == 2){
+                                    cout << "The new President is Independent!\n";
+                                    valid = true;
+                                }
+
+                                else if(presidentParty == 3){
+                                    cout << "The new President is Right!\n";
+                                    valid = true;
+
+                                }
+
+                            }
+                            valid = false;
+                        }
+
+
+                    }
+
+                    //Confirm to continue:
+                    if(year < (AMOUNT_SIMULATE - 1)){
+                        while(!valid){
+                            cout << "Continue? (y/n): ";
+                            cin >> confirm;
+
+                            if(cin.fail()){
+                                cin.clear();
+                                cin.ignore(10000, '\n');
+                                cout << "Invalid input. try again.\n";
+                            }
+                            else if(confirm == 'y' || confirm == 'Y'){
+                                valid = true;
+                                cout << "Continuing ... \n";
+                            }
+                            else if (confirm == 'n' || confirm == 'N'){
+                                valid = true;
+                                cout << "Closing program ...\n";
+                                cout << "Thank you for using this program!"; 
+
+                                //Clearing the lists of data:
+                                for(int i = 0; i < 3; i++){ //clearing the Left lists
+                                    itL->second[i].clear();
+                                }
+                                for(int i = 0; i < 3; i++){//clearing the Independent lists
+                                    itI->second[i].clear();
+                                }
+                                for(int i = 0; i < 3; i++){//clearing the Right lists
+                                    itR->second[i].clear();
+                                }
+                                for(int i = 0; i < 3; i++){//clearing the Temporary Independent list
+                                    itTempI->second[i].clear();
+                                }
+                                for(int i = 0; i < 3; i++){//clearing the Temporary Independent list
+                                itTempR->second[i].clear();
+                                }
+
+                                return 0;
+                            }
+                            else{
+                                cout << "Error. Not y or n. Try again.\n";
+                            }
+                        }
+                    }
+
+                }
+                
+    cout << "Thank you for using this program!";            
+    //Clearing the lists of data:
+    for(int i = 0; i < 3; i++){ //clearing the Left lists
+        itL->second[i].clear();
+    }
+    for(int i = 0; i < 3; i++){//clearing the Independent lists
+        itI->second[i].clear();
+    }
+    for(int i = 0; i < 3; i++){//clearing the Right lists
+        itR->second[i].clear();
+    }
+    for(int i = 0; i < 3; i++){//clearing the Temporary Independent list
+        itTempI->second[i].clear();
+    }
+    for(int i = 0; i < 3; i++){//clearing the Temporary Independent list
+        itTempR->second[i].clear();
+    }
+
+                     
+    return 0;
+    
     //end of main function.
+}
+
+
+//partyChange(): a function that would simulate the results of the event[s] and what would have happend for this voting period and how they affect different voters using a bunch of if and switch statments.
+    //Parameters: a voter, 2 bools for the disaster and war events, and int variable for the economic events ,  an int to hold the presidents party, and an int hold the voters party.
+    //returns: an integer indicating which party they are a part of now and and if they are staunch.
+int partyChange(Voter v, bool disaster, bool war, int economy, int president, int party){
+    int newParty = 0;
+    int change = 0;
+    int prob;
+    int staunch = 0;
+
+    //
+    if(v.get_staunch()){
+            staunch = 15;
+        }
+        
+    if(debug){
+            cout << "In partyChange()\n";
+        }
+    switch(party){
+
+        case (1) : // The voter is a part of the left party:
+
+        
+        switch(president){
+            case 1: // the president is an Left party member (same as voter):
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = +(20 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(25 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(30 - staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = -(20 + staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = +(30 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(35 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(35 - staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = -(15 + staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy == 2){ //Economic downturn:
+                            change = +(35 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(20 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(35 - staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = -(10 + staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+            break;
+
+            case 2: // The president is an Independent:
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(15 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(15 - staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(10 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(5 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(20 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(20 - staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy == 2){ //Economic downturn:
+                            change = -(10 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(15 - staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+            break;
+            case 3: // the President a Right Party member:
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(20 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(15 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(10 - staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(15 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(15 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(20 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(17 - staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy == 2){ //Economic downturn:
+                            change = -(15 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(20 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(25 - staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+
+            break;
+            default: //error handling
+                cout << "Error. Invalid Presidential Party.\n";
+        }
+        break;
+
+        case (2) : // The voter is a part of the Independent party:
+        switch(president){
+            case 1: // the president is an Left party member (same as voter):
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(10 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(20 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(20 - staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(10 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(17 - staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy == 2){ //Economic downturn:
+                            change = -(15 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(15 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(15 - staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+            break;
+
+            case 2: // The president is an Independent:
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = +(20 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(25 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(35 - staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = -(20 + staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = +(20 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(25 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(30 - staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = -(25 + staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy == 2){ //Economic downturn:
+                            change = +(25 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(30 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(30 - staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = -(22 + staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+            break;
+            case 3: // the President a Right Party member:
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(15 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(15 - staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(10 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(20 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(15 - staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy == 2){ //Economic downturn:
+                            change = -(10 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(15 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(20 - staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+
+            break;
+            default: //error handling
+                cout << "Error. Invalid Presidential Party.\n";
+        }
+        case (3) : // The voter is a part of the Right party:
+        switch(president){
+            case 1: // the president is an Left party member (same as voter):
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(20 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(15 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(20 - staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(15 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(17 - staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy == 2){ //Economic downturn:
+                            change = -(10 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(10 - staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+            break;
+
+            case 2: // The president is an Independent:
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(15 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(30 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(22 - staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = -(10 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(10 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(25 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(25 - staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy == 2){ //Economic downturn:
+                            change = -(15 + staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = -(15 + staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = -(30 + staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = +(20 - staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+            break;
+            case 3: // the President a Right Party member:
+                switch(v.get_leaning()){
+                //left leaning:
+                    case 1:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = +(30 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(30 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(40 - staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = -(15 + staunch);
+                        }
+
+                    
+
+                        break;
+                     }
+                    //moderate leaning:
+                    case 2:{
+                
+                        if (economy == 2){ //Economic downturn:
+                            change = +(20 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(20 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(35 - staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = -(20 + staunch);
+                        }
+
+                
+                    break;
+                    }
+            //right leaning:
+                    case 3:{
+                        if (economy == 2){ //Economic downturn:
+                            change = +(20 - staunch);
+                        }
+
+                        if (disaster == true){ // disaster happened:
+                            change = +(15 - staunch);
+                        }
+
+                        if (war == true) { //war happened:
+                            change = +(25 - staunch);
+                    
+                        }
+                        if (economy == 1){ // Economic boom:
+                            change = -(25 + staunch);
+                        }
+
+                    break;
+                    }
+                    //error handling
+                    default:
+                        cout << "error. invalid political leaning number.\n ";
+                }
+
+            break;
+            default: //error handling
+                cout << "Error. Invalid Presidential Party.\n";
+        }
+        
+    }
+
+if(debug){
+    cout << "At the end of partyChange():\n";
+}
+    //Determining the how the voter will change:
+    while(true){
+        prob = ((rand()%100) + change);
+        if(debug){
+            cout << "prob: " << prob << endl;
+        }
+        if(prob < 0){ // become staunch (0)
+            return newParty;
+        }
+        else if(prob < 50){ // stay in party (party)
+            newParty = party;
+            return newParty;
+        }
+        else if(prob < 110){ //chance to change party (1-3)
+            newParty = (rand()%3) + 1;
+
+            if(debug){
+                cout << "new party is " << newParty << endl;
+            }
+            return newParty;
+        }
+        else if(prob >= 110){// become non-voter (4)
+            newParty = 4;
+            return newParty;
+        }
+    }
+    
+
+    
+}
