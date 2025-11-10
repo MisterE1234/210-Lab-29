@@ -1510,6 +1510,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
 if(debug){
     cout << "At the end of partyChange():\n";
 }
+    //Determining the how the voter will change:
     while(true){
         prob = ((rand()%100) + change);
         if(debug){
