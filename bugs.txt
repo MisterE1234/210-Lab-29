@@ -27,3 +27,4 @@ I am going to put the initial party line at the begining as it is a little odd t
 The Left party is too prone to go non-voting and the Right party rarely goes below 30 members which is not how should be. I need to tweak some values.
 
 I tested the program with my family and they had good feedback: I need to explain staunch and non-voting. Something I noticed is that the Left tends to have a rough start but then come back to around 52 members.
+

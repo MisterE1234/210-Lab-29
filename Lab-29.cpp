@@ -15,7 +15,7 @@
 using namespace std;
 const bool debug = false;
 
-const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 20, PROB_DISASTER = 40, PROB_WAR = 10, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
+const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,  INITIAL_L = 40, INITIAL_I = 20, PROB_DISASTER = 40, PROB_WAR = 20, PROB_ECONOMY = 45; //The economy Probablity is actualy times 2
 
 //Define a class named Voter:
     //would hold a int political leaning variable with three options (1-3). To represent left, moderate, right.
@@ -161,11 +161,11 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
 
     //Explaining the program:
     cout << "Welcome to Election Simulator!\n";
-    cout << "There will be an initial President will be chosen.\nYou will see what party that president is and what events happened during their term.\n";
+    cout << "There will be an initial President will be chosen.\nYou will see what party that president is a part of\nand what events happened during their term.\n";
     cout << "Voters have 3 politcal leanings: Right, Left, and Moderate.\n";
-    cout << "Voters may become staunch supporters of their party or become non-voters.";
-    cout << "Note* Staunch means that they are less likely to leave their party, so non-voters are always staunch.\n";
-    cout << "Enjoy the program. You can exit out whenever you would like.\n\n";
+    cout << "Voters may become staunch supporters of their party or become non-voters.\n";
+    cout << "Staunch means that they are less likely to leave their party,\nso non-voters are always staunch.\n";
+    cout << "Enjoy the program. There are 25 cycles. You can exit out whenever you would like.\n\n";
 
 
     // Begin a time-based simulation for voting changes:
@@ -994,7 +994,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                         }
 
                         if (war == true) { //war happened:
-                            change = -(30 + staunch);
+                            change = -(25 + staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
@@ -1017,7 +1017,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                         }
 
                         if (war == true) { //war happened:
-                            change = -(25 + staunch);
+                            change = -(20 + staunch);
                     
                         }
                         if (economy = 1){ // Economic boom:
@@ -1516,7 +1516,7 @@ if(debug){
         if(debug){
             cout << "prob: " << prob << endl;
         }
-        if(prob < 5){ // become staunch (0)
+        if(prob < 0){ // become staunch (0)
             return newParty;
         }
         else if(prob < 50){ // stay in party (party)
