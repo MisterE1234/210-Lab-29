@@ -28,3 +28,4 @@ The Left party is too prone to go non-voting and the Right party rarely goes bel
 
 I tested the program with my family and they had good feedback: I need to explain staunch and non-voting. Something I noticed is that the Left tends to have a rough start but then come back to around 52 members.
 
+All the if statements for economy events in partyChange() had only one = as opposed to ==.

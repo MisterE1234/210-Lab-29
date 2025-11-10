@@ -256,7 +256,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                 
                 //going through the Left party first:
                 voterParty = 1;
-                for(int i = 0; i < 3; i++){
+                for(int i = 0; i < 3; i++){ // once for each list in the array
                     
                     if(debug) {
                         cout << "starting to get voter reaction\n";
@@ -570,7 +570,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                     vote->set_staunch(false); //no longer staunch
                                     rStaunch--;
                                 }
-                                
+                                //using a temporary Voter to the Voter value for transfer before removing it.
                                 tempVote = *vote;
                                 vote = tempList.erase(vote);
                                 itI->second[i].push_back(tempVote);
@@ -591,13 +591,13 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                                 if(debug){
                                     cout << "Becoming non-Voter\n";
                                 }
-                                if(vote->get_non_vote()){
+                                if(vote->get_non_vote()){ //if the voter is already a non-voter:
                                     vote->set_non_vote(false);
                                     rNon--;    
                                     vote->set_staunch(false);
                                     rStaunch--;
                                 }
-                                else{
+                                else{//If not:
                                     vote->set_non_vote(true);
                                     if(!vote->get_staunch()){
                                         vote->set_staunch(true);
@@ -623,7 +623,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                     if(debug){
                         cout << "Independents Processing...\n";
                     }
-                    
+                    //iterating through the list:
                     for(auto vote = tempList.begin(); vote !=tempList.end();){
                         tempVote = *vote;
                         vote = tempList.erase(vote);
@@ -672,7 +672,7 @@ const int AMOUNT_SIMULATE = 25, EVENT_NUM = 3, VOTER_NUM = 100,  INITIAL_R = 40,
                             }
 
                         }
-                        valid = false;
+                        valid = false; //resetting for reuse
                     }
 
                 }
@@ -840,7 +840,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                 //left leaning:
                     case 1:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = +(20 - staunch);
                         }
 
@@ -852,7 +852,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = +(30 - staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = -(20 + staunch);
                         }
 
@@ -863,7 +863,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     //moderate leaning:
                     case 2:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = +(30 - staunch);
                         }
 
@@ -875,7 +875,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = +(35 - staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = -(15 + staunch);
                         }
 
@@ -884,7 +884,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     }
             //right leaning:
                     case 3:{
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = +(35 - staunch);
                         }
 
@@ -896,7 +896,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = +(35 - staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = -(10 + staunch);
                         }
 
@@ -913,7 +913,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                 //left leaning:
                     case 1:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(15 + staunch);
                         }
 
@@ -925,7 +925,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(25 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(15 - staunch);
                         }
 
@@ -936,7 +936,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     //moderate leaning:
                     case 2:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(10 + staunch);
                         }
 
@@ -948,7 +948,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(20 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(20 - staunch);
                         }
 
@@ -957,7 +957,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     }
             //right leaning:
                     case 3:{
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(10 + staunch);
                         }
 
@@ -969,7 +969,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(25 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(15 - staunch);
                         }
 
@@ -985,7 +985,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                 //left leaning:
                     case 1:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(20 + staunch);
                         }
 
@@ -997,7 +997,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(25 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(10 - staunch);
                         }
 
@@ -1008,7 +1008,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     //moderate leaning:
                     case 2:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(15 + staunch);
                         }
 
@@ -1020,7 +1020,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(20 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(17 - staunch);
                         }
 
@@ -1029,7 +1029,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     }
             //right leaning:
                     case 3:{
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(15 + staunch);
                         }
 
@@ -1041,7 +1041,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(20 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(25 - staunch);
                         }
 
@@ -1065,7 +1065,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                 //left leaning:
                     case 1:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(10 + staunch);
                         }
 
@@ -1077,7 +1077,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(20 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(20 - staunch);
                         }
 
@@ -1088,7 +1088,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     //moderate leaning:
                     case 2:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(10 + staunch);
                         }
 
@@ -1100,7 +1100,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(25 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(17 - staunch);
                         }
 
@@ -1109,7 +1109,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     }
             //right leaning:
                     case 3:{
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(15 + staunch);
                         }
 
@@ -1121,7 +1121,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(25 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(15 - staunch);
                         }
 
@@ -1138,7 +1138,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                 //left leaning:
                     case 1:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = +(20 - staunch);
                         }
 
@@ -1150,7 +1150,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = +(35 - staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = -(20 + staunch);
                         }
 
@@ -1161,7 +1161,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     //moderate leaning:
                     case 2:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = +(20 - staunch);
                         }
 
@@ -1173,7 +1173,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = +(30 - staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = -(25 + staunch);
                         }
 
@@ -1182,7 +1182,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     }
             //right leaning:
                     case 3:{
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = +(25 - staunch);
                         }
 
@@ -1194,7 +1194,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = +(30 - staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = -(22 + staunch);
                         }
 
@@ -1210,7 +1210,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                 //left leaning:
                     case 1:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(15 + staunch);
                         }
 
@@ -1222,7 +1222,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(25 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(15 - staunch);
                         }
 
@@ -1233,7 +1233,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     //moderate leaning:
                     case 2:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(10 + staunch);
                         }
 
@@ -1245,7 +1245,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(20 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(15 - staunch);
                         }
 
@@ -1254,7 +1254,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     }
             //right leaning:
                     case 3:{
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(10 + staunch);
                         }
 
@@ -1266,7 +1266,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(15 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(20 - staunch);
                         }
 
@@ -1288,7 +1288,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                 //left leaning:
                     case 1:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(20 + staunch);
                         }
 
@@ -1300,7 +1300,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(25 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(20 - staunch);
                         }
 
@@ -1311,7 +1311,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     //moderate leaning:
                     case 2:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(15 + staunch);
                         }
 
@@ -1323,7 +1323,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(25 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(17 - staunch);
                         }
 
@@ -1332,7 +1332,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     }
             //right leaning:
                     case 3:{
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(10 + staunch);
                         }
 
@@ -1344,7 +1344,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(25 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(10 - staunch);
                         }
 
@@ -1361,7 +1361,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                 //left leaning:
                     case 1:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(15 + staunch);
                         }
 
@@ -1373,7 +1373,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(30 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(22 - staunch);
                         }
 
@@ -1384,7 +1384,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     //moderate leaning:
                     case 2:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(10 + staunch);
                         }
 
@@ -1396,7 +1396,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(25 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(25 - staunch);
                         }
 
@@ -1405,7 +1405,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     }
             //right leaning:
                     case 3:{
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = -(15 + staunch);
                         }
 
@@ -1417,7 +1417,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = -(30 + staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = +(20 - staunch);
                         }
 
@@ -1433,7 +1433,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                 //left leaning:
                     case 1:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = +(30 - staunch);
                         }
 
@@ -1445,7 +1445,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = +(40 - staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = -(15 + staunch);
                         }
 
@@ -1456,7 +1456,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     //moderate leaning:
                     case 2:{
                 
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = +(20 - staunch);
                         }
 
@@ -1468,7 +1468,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = +(35 - staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = -(20 + staunch);
                         }
 
@@ -1477,7 +1477,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                     }
             //right leaning:
                     case 3:{
-                        if (economy = 2){ //Economic downturn:
+                        if (economy == 2){ //Economic downturn:
                             change = +(20 - staunch);
                         }
 
@@ -1489,7 +1489,7 @@ int partyChange(Voter v, bool disaster, bool war, int economy, int president, in
                             change = +(25 - staunch);
                     
                         }
-                        if (economy = 1){ // Economic boom:
+                        if (economy == 1){ // Economic boom:
                             change = -(25 + staunch);
                         }
 
